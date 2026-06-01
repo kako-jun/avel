@@ -1,5 +1,5 @@
 base_url = "https://avel.llll-ll.com"
-title = "avel"
+title = "avel のホームページ"
 description = "A minimal, no-JS blog powered by Zola"
 default_language = "ja"
 compile_sass = false
@@ -17,7 +17,7 @@ lang = "ja"
 
 [extra]
 # --- プロフィール ---
-name = "avel demo"
+name = "Ave L"
 profile_image = "avatar.svg"
 profile_width = "120"
 profile_height = "120"
