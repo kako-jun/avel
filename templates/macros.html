@@ -1,1 +1,1 @@
-{% macro post_list(pages) %}{% for page in pages %}<p><a href="{{ page.permalink }}">{{ page.title }}</a>{% if page.date %} <small>{{ page.date | date(format=config.extra.date_format | default(value="%Y-%m-%d")) }}</small>{% endif %}</p>{% endfor %}{% endmacro post_list %}
+{% macro post_list(pages) %}{% for page in pages %}<p><a href="{{ page.permalink }}">{{ page.title }}</a>{% if page.date %} <small>{{ page.date | date(format=config.extra.date_format | default(value="%Y年%m月%d日")) }}</small>{% endif %}</p>{% endfor %}{% endmacro post_list %}

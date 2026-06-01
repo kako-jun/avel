@@ -1,6 +1,9 @@
 +++
 title = "Markdown ショーケース"
 date = 2026-05-10
+
+[taxonomies]
+tags = ["showcase", "demo"]
 +++
 
 このページはテーマの表示確認用サンプルです。
