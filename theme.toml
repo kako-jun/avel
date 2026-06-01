@@ -6,4 +6,5 @@ min_version = "0.18.0"
 author_name = "kako-jun"
 author_homepage = "https://llll-ll.com"
 demo = "https://avel.llll-ll.com"
+tags = ["blog", "minimal", "no-js"]
 

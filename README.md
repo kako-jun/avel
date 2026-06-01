@@ -80,10 +80,23 @@ All style options are controlled via `[extra]` in `config.toml`. Copy and uncomm
 
 ```
 content/
-  _index.md         # top page
+  _index.md              # top page
   posts/
-    _index.md       # posts section (sort_by = "date")
-    hello.md        # a post
+    _index.md            # posts section (sort_by = "date", transparent = true)
+    hello.md             # a post
+```
+
+`transparent = true` in `posts/_index.md` makes posts visible in the top page list.
+
+To enable pagination, add `paginate_by` to `posts/_index.md`:
+
+```toml
++++
+title = "Posts"
+sort_by = "date"
+transparent = true
+paginate_by = 5
++++
 ```
 
 ## Theme gallery
