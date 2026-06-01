@@ -35,23 +35,23 @@ All style options are controlled via `[extra]` in `config.toml`. Copy and uncomm
 # profile_image = "me.webp"       # place in static/
 
 # --- Background ---
-# background_image = "bg.webp"    # place in static/
+# background_image = "bg.svg"     # place in static/
 # body_bg = "#ffffff"
 
 # --- Layout ---
 # nav_width = "18%"               # default: 18%
-# nav_bg = "#f0f0ff"
-# nav_bullet = "●"               # default: none
+# nav_bg = "#9999cc"              # default: #9999cc
+# nav_bullet = "■"               # default: none
 # main_padding = "1em"
 # max_width = "960px"
 # content_align = "left"         # left / center / justify
-# line_height = "1.8"
+# line_height = "1.5"            # default: 1.5
 
 # --- Font ---
-# font = "serif"                  # serif / sans-serif / monospace
+# font = "sans-serif"             # serif / sans-serif / monospace
 # font_family = "Georgia"         # system fonts only = no external requests
 # google_fonts_url = "https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap"
-# font_size = "16px"
+# font_size = "13px"              # default: 13px
 
 # --- Colors ---
 # link_color = "#0000cc"
@@ -82,22 +82,37 @@ All style options are controlled via `[extra]` in `config.toml`. Copy and uncomm
 content/
   _index.md              # top page
   posts/
-    _index.md            # posts section (sort_by = "date", transparent = true)
-    hello.md             # a post
+    _index.md            # posts section (sort_by = "date", transparent = true, paginate_by = 10)
+    my-post.md           # a post
 ```
 
 `transparent = true` in `posts/_index.md` makes posts visible in the top page list.
 
-To enable pagination, add `paginate_by` to `posts/_index.md`:
+## Tags
+
+Add `[[taxonomies]]` to `config.toml`:
+
+```toml
+[[taxonomies]]
+name = "tags"
+url = "tags"
+feed = false
+lang = "en"
+```
+
+Then add tags to your posts:
 
 ```toml
 +++
-title = "Posts"
-sort_by = "date"
-transparent = true
-paginate_by = 5
+title = "My Post"
+date = 2026-01-01
+
+[taxonomies]
+tags = ["foo", "bar"]
 +++
 ```
+
+Tag pages are generated at `/tags/` and `/tags/{name}/`.
 
 ## Theme gallery
 
