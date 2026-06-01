@@ -1,0 +1,10 @@
+name = "avel"
+description = "A minimal, no-JS Zola theme. Inspired by Abe Hiroshi's homepage."
+license = "MIT"
+homepage = "https://github.com/kako-jun/avel"
+min_version = "0.18.0"
+author_name = "kako-jun"
+author_homepage = "https://llll-ll.com"
+demo = "https://avel.llll-ll.com"
+
+[extra]

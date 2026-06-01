@@ -1,0 +1,56 @@
+base_url = "https://avel.llll-ll.com"
+title = "avel"
+description = ""
+default_language = "ja"
+compile_sass = false
+generate_feeds = true
+feed_filenames = ["atom.xml"]
+minify_html = true
+
+[markdown]
+highlight_code = true
+
+[extra]
+# --- プロフィール ---
+# name = "Your Name"
+# profile_image = "me.webp"       # static/ に置いた画像ファイル名
+
+# --- 背景 ---
+# background_image = "bg.webp"    # static/ に置いた画像ファイル名
+# body_bg = "#ffffff"             # 背景画像なしのときの背景色
+
+# --- レイアウト ---
+# nav_width = "18%"               # サイドバー幅（デフォルト: 18%）
+# nav_bg = "#f0f0ff"              # サイドバー背景色
+# nav_bullet = "●"               # ナビ項目の先頭記号
+# main_padding = "1em"            # メインエリアの余白
+# max_width = "960px"             # ページ全体の最大幅
+# content_align = "left"         # 本文の文字揃え: left / center / justify
+# line_height = "1.8"            # 行間（デフォルト: 1.8）
+
+# --- フォント ---
+# font = "serif"                  # serif / sans-serif / monospace（総称ファミリー）
+# font_family = ""                # 具体的な書体名（システムフォントのみなら外部読み込みなし）
+#                                 # 例: "Georgia" / "Hiragino Mincho ProN" / "Yu Gothic"
+# google_fonts_url = ""           # Google Fonts の URL（初回のみ遅延、2回目以降はキャッシュ）
+#                                 # 例: "https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap"
+# font_size = "16px"              # ベースフォントサイズ（デフォルト: 16px）
+
+# --- リンク色 ---
+# link_color = "#0000cc"          # リンクの色
+# link_visited = "#551a8b"        # 訪問済みリンクの色
+
+# --- 日付 ---
+# date_format = "%Y-%m-%d"        # %Y年%m月%d日 なども可
+
+# --- フッター ---
+# footer = "© Your Name"          # フッターに表示するテキスト
+
+# --- OGP ---
+# og_image = "og.webp"            # SNSシェア用画像（static/ に置く）
+
+# --- ナビゲーション ---
+# nav = [
+#   { label = "トップ", url = "/" },
+#   { label = "記事一覧", url = "/posts/" },
+# ]

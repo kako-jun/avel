@@ -1,0 +1,1 @@
+{% extends "base.html" %}{% block title %}{{ page.title }} | {{ config.title }}{% endblock title %}{% block content %}<h1>{{ page.title }}</h1><p><small>{{ page.date | date(format="%Y-%m-%d") }}</small></p>{{ page.content | safe }}{% endblock content %}
