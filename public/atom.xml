@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="ja">
+    <title>avel</title>
+    <subtitle>A minimal, no-JS blog powered by Zola</subtitle>
+    <link rel="self" type="application/atom+xml" href="https://avel.llll-ll.com/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://avel.llll-ll.com"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2026-06-01T00:00:00+00:00</updated>
+    <id>https://avel.llll-ll.com/atom.xml</id>
+    <entry xml:lang="ja">
+        <title>最初の記事</title>
+        <published>2026-06-01T00:00:00+00:00</published>
+        <updated>2026-06-01T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            
+              Unknown
+            
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://avel.llll-ll.com/posts/hello/"/>
+        <id>https://avel.llll-ll.com/posts/hello/</id>
+        
+        <content type="html" xml:base="https://avel.llll-ll.com/posts/hello/">&lt;p&gt;最初の記事。&lt;&#x2F;p&gt;
+</content>
+        
+    </entry>
+</feed>

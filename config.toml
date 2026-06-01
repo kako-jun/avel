@@ -1,6 +1,6 @@
 base_url = "https://avel.llll-ll.com"
 title = "avel"
-description = ""
+description = "A minimal, no-JS blog powered by Zola"
 default_language = "ja"
 compile_sass = false
 generate_feeds = true
@@ -22,7 +22,7 @@ highlight_code = true
 # --- レイアウト ---
 # nav_width = "18%"               # サイドバー幅（デフォルト: 18%）
 # nav_bg = "#f0f0ff"              # サイドバー背景色
-# nav_bullet = "●"               # ナビ項目の先頭記号
+# nav_bullet = "●"               # ナビ項目の先頭記号（デフォルト: なし）
 # main_padding = "1em"            # メインエリアの余白
 # max_width = "960px"             # ページ全体の最大幅
 # content_align = "left"         # 本文の文字揃え: left / center / justify
@@ -48,6 +48,9 @@ highlight_code = true
 
 # --- OGP ---
 # og_image = "og.webp"            # SNSシェア用画像（static/ に置く）
+
+# --- 記事一覧見出し ---
+# index_heading = "Posts"         # トップページの記事一覧の見出し（デフォルト: "Posts"）
 
 # --- ナビゲーション ---
 # nav = [
