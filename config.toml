@@ -17,7 +17,7 @@ minify_html = true
 # profile_height = "350"          # プロフィール画像の高さ（デフォルト: 350）— CLS 防止のため設定推奨
 
 # --- 背景 ---
-# background_image = "bg.webp"    # static/ に置いた画像ファイル名
+background_image = "bg.svg"
 # body_bg = "#ffffff"             # 背景画像なしのときの背景色
 
 # --- レイアウト ---

@@ -5,50 +5,8 @@
     <link rel="self" type="application/atom+xml" href="https://avel.llll-ll.com/atom.xml"/>
     <link rel="alternate" type="text/html" href="https://avel.llll-ll.com"/>
     <generator uri="https://www.getzola.org/">Zola</generator>
-    <updated>2026-06-01T00:00:00+00:00</updated>
+    <updated>2026-05-10T00:00:00+00:00</updated>
     <id>https://avel.llll-ll.com/atom.xml</id>
-    <entry xml:lang="ja">
-        <title>最初の記事</title>
-        <published>2026-06-01T00:00:00+00:00</published>
-        <updated>2026-06-01T00:00:00+00:00</updated>
-        
-        <author>
-          <name>
-            
-              Unknown
-            
-          </name>
-        </author>
-        
-        <link rel="alternate" type="text/html" href="https://avel.llll-ll.com/posts/hello/"/>
-        <id>https://avel.llll-ll.com/posts/hello/</id>
-        
-        <content type="html" xml:base="https://avel.llll-ll.com/posts/hello/">&lt;p&gt;最初の記事。&lt;&#x2F;p&gt;
-</content>
-        
-    </entry>
-    <entry xml:lang="ja">
-        <title>散歩の記録</title>
-        <published>2026-05-20T00:00:00+00:00</published>
-        <updated>2026-05-20T00:00:00+00:00</updated>
-        
-        <author>
-          <name>
-            
-              Unknown
-            
-          </name>
-        </author>
-        
-        <link rel="alternate" type="text/html" href="https://avel.llll-ll.com/posts/walk/"/>
-        <id>https://avel.llll-ll.com/posts/walk/</id>
-        
-        <content type="html" xml:base="https://avel.llll-ll.com/posts/walk/">&lt;p&gt;近所を一時間ほど歩いた。&lt;&#x2F;p&gt;
-&lt;p&gt;用水路沿いの道は草が伸びていて、足元が少し湿っていた。カエルの声がした。&lt;&#x2F;p&gt;
-&lt;p&gt;特に目的もなく歩くのが好きだ。考え事をしているようで、実は何も考えていない。それがいい。&lt;&#x2F;p&gt;
-</content>
-        
-    </entry>
     <entry xml:lang="ja">
         <title>Markdown ショーケース</title>
         <published>2026-05-10T00:00:00+00:00</published>
@@ -110,99 +68,6 @@ font = &amp;quot;serif&amp;quot;
 &lt;hr &#x2F;&gt;
 &lt;h2 id=&quot;rinku&quot;&gt;リンク&lt;&#x2F;h2&gt;
 &lt;p&gt;&lt;a rel=&quot;external&quot; href=&quot;https:&#x2F;&#x2F;github.com&#x2F;kako-jun&#x2F;avel&quot;&gt;GitHub&lt;&#x2F;a&gt;&lt;&#x2F;p&gt;
-</content>
-        
-    </entry>
-    <entry xml:lang="ja">
-        <title>avel の使い方</title>
-        <published>2026-05-01T00:00:00+00:00</published>
-        <updated>2026-05-01T00:00:00+00:00</updated>
-        
-        <author>
-          <name>
-            
-              Unknown
-            
-          </name>
-        </author>
-        
-        <link rel="alternate" type="text/html" href="https://avel.llll-ll.com/posts/how-to-use/"/>
-        <id>https://avel.llll-ll.com/posts/how-to-use/</id>
-        
-        <content type="html" xml:base="https://avel.llll-ll.com/posts/how-to-use/">&lt;p&gt;avel は阿部寛のホームページにインスパイアされた、JS ゼロの軽量 Zola テーマです。&lt;&#x2F;p&gt;
-&lt;h2 id=&quot;insutoru&quot;&gt;インストール&lt;&#x2F;h2&gt;
-&lt;pre&gt;&lt;code data-lang=&quot;bash&quot;&gt;cd your-site
-git submodule add https:&#x2F;&#x2F;github.com&#x2F;kako-jun&#x2F;avel themes&#x2F;avel
-&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
-&lt;p&gt;&lt;code&gt;config.toml&lt;&#x2F;code&gt; に以下を追加します。&lt;&#x2F;p&gt;
-&lt;pre&gt;&lt;code data-lang=&quot;toml&quot;&gt;theme = &amp;quot;avel&amp;quot;
-&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
-&lt;h2 id=&quot;she-ding&quot;&gt;設定&lt;&#x2F;h2&gt;
-&lt;p&gt;&lt;code&gt;config.toml&lt;&#x2F;code&gt; の &lt;code&gt;[extra]&lt;&#x2F;code&gt; セクションでスタイルを調整できます。&lt;&#x2F;p&gt;
-&lt;pre&gt;&lt;code data-lang=&quot;toml&quot;&gt;[extra]
-name = &amp;quot;Your Name&amp;quot;
-profile_image = &amp;quot;me.webp&amp;quot;
-nav_width = &amp;quot;20%&amp;quot;
-nav_bg = &amp;quot;#f0f0ff&amp;quot;
-font = &amp;quot;serif&amp;quot;
-footer = &amp;quot;© Your Name&amp;quot;
-
-nav = [
-  { label = &amp;quot;トップ&amp;quot;, url = &amp;quot;&#x2F;&amp;quot; },
-  { label = &amp;quot;記事一覧&amp;quot;, url = &amp;quot;&#x2F;posts&#x2F;&amp;quot; },
-]
-&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
-&lt;h2 id=&quot;nabigesiyon&quot;&gt;ナビゲーション&lt;&#x2F;h2&gt;
-&lt;p&gt;&lt;code&gt;nav&lt;&#x2F;code&gt; を設定するとサイドバーにリンクが並びます。未設定の場合はデフォルトのナビが表示されます。&lt;&#x2F;p&gt;
-&lt;h2 id=&quot;huonto&quot;&gt;フォント&lt;&#x2F;h2&gt;
-&lt;p&gt;システムフォントのみを使う場合は &lt;code&gt;font_family&lt;&#x2F;code&gt; に書体名を直接指定します。Google Fonts を使う場合は &lt;code&gt;google_fonts_url&lt;&#x2F;code&gt; に URL を設定します。&lt;&#x2F;p&gt;
-&lt;pre&gt;&lt;code data-lang=&quot;toml&quot;&gt;google_fonts_url = &amp;quot;https:&#x2F;&#x2F;fonts.googleapis.com&#x2F;css2?family=Noto+Serif+JP&amp;amp;display=swap&amp;quot;
-font_family = &amp;quot;Noto Serif JP&amp;quot;
-&lt;&#x2F;code&gt;&lt;&#x2F;pre&gt;
-</content>
-        
-    </entry>
-    <entry xml:lang="ja">
-        <title>本を読んだ</title>
-        <published>2026-04-15T00:00:00+00:00</published>
-        <updated>2026-04-15T00:00:00+00:00</updated>
-        
-        <author>
-          <name>
-            
-              Unknown
-            
-          </name>
-        </author>
-        
-        <link rel="alternate" type="text/html" href="https://avel.llll-ll.com/posts/reading/"/>
-        <id>https://avel.llll-ll.com/posts/reading/</id>
-        
-        <content type="html" xml:base="https://avel.llll-ll.com/posts/reading/">&lt;p&gt;夏目漱石の「草枕」を読み返した。&lt;&#x2F;p&gt;
-&lt;p&gt;冒頭の一節、「智に働けば角が立つ。情に棹させば流される。意地を通せば窮屈だ。とかく人の世は住みにくい。」は何度読んでも飽きない。&lt;&#x2F;p&gt;
-&lt;p&gt;住みにくい世の中を、それでも面白いと思って生きている人間の話だと今は受け取っている。&lt;&#x2F;p&gt;
-</content>
-        
-    </entry>
-    <entry xml:lang="ja">
-        <title>静かな朝</title>
-        <published>2026-04-01T00:00:00+00:00</published>
-        <updated>2026-04-01T00:00:00+00:00</updated>
-        
-        <author>
-          <name>
-            
-              Unknown
-            
-          </name>
-        </author>
-        
-        <link rel="alternate" type="text/html" href="https://avel.llll-ll.com/posts/quiet-morning/"/>
-        <id>https://avel.llll-ll.com/posts/quiet-morning/</id>
-        
-        <content type="html" xml:base="https://avel.llll-ll.com/posts/quiet-morning/">&lt;p&gt;朝六時に目が覚めた。窓の外はまだ薄暗い。&lt;&#x2F;p&gt;
-&lt;p&gt;コーヒーを淹れて、椅子に座った。何もしない時間というのは贅沢だと最近思う。スマートフォンも開かず、ただ湯気を眺めていた。&lt;&#x2F;p&gt;
-&lt;p&gt;春先の空気は冷たいけれど、嫌いではない。&lt;&#x2F;p&gt;
 </content>
         
     </entry>
