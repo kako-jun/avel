@@ -6,20 +6,20 @@ date = 2025-07-01
 tags = ["configuration"]
 +++
 
-デフォルトは `sans-serif`（システムのゴシック体）です。
+デフォルトは `sans-serif`（システムのゴシック体）。
 
-## システムフォントを使う
+## システムフォント
 
 ```toml
 [extra]
-font = "serif"              # serif / sans-serif / monospace
-font_family = "Georgia"     # 具体的な書体名
+font = "serif"
+font_family = "Georgia"
 font_size = "14px"
 ```
 
-外部リソースを読み込まないため、高速です。
+外部リクエストなしで完結する。
 
-## Google Fonts を使う
+## Google Fonts
 
 ```toml
 [extra]
@@ -28,4 +28,4 @@ font_family = "Noto Serif JP"
 font = "serif"
 ```
 
-初回のみ Google のサーバーへリクエストが発生します。
+初回だけ Google のサーバーへリクエストが発生する。

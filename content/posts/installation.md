@@ -6,20 +6,20 @@ date = 2025-06-05
 tags = ["installation"]
 +++
 
-Zola サイトに avel を追加するには、git submodule を使います。
+git submodule で追加する。
 
 ```bash
 cd your-zola-site
 git submodule add https://github.com/kako-jun/avel themes/avel
 ```
 
-次に `config.toml` でテーマを指定します。
+`config.toml` にテーマを指定する。
 
 ```toml
 theme = "avel"
 ```
 
-また、`content/posts/_index.md` を作成してください。
+`content/posts/_index.md` を作る。
 
 ```toml
 +++
@@ -29,4 +29,4 @@ paginate_by = 10
 +++
 ```
 
-`zola serve` で動作を確認したら完了です。
+`zola serve` で確認して完了。

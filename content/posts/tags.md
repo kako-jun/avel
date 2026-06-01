@@ -6,9 +6,7 @@ date = 2025-08-01
 tags = ["configuration"]
 +++
 
-記事にタグを付けると、タグ別のページが自動生成されます。
-
-## config.toml に taxonomy を追加
+`config.toml` に taxonomy を追加する。
 
 ```toml
 [[taxonomies]]
@@ -18,7 +16,7 @@ feed = false
 lang = "ja"
 ```
 
-## 記事にタグを付ける
+記事のフロントマターにタグを書く。
 
 ```toml
 +++
@@ -30,4 +28,4 @@ tags = ["foo", "bar"]
 +++
 ```
 
-タグ一覧は `/tags/` で、タグ別記事一覧は `/tags/{name}/` で閲覧できます。
+`/tags/` にタグ一覧、`/tags/{name}/` にタグ別記事一覧が生成される。
