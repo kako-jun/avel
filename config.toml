@@ -42,7 +42,10 @@ minify_html = true
 # link_visited = "#551a8b"        # 訪問済みリンクの色
 
 # --- 日付 ---
-# date_format = "%Y-%m-%d"        # %Y年%m月%d日 なども可
+date_format = "%Y年%m月%d日"
+
+# --- 箇条書き ---
+nav_bullet = "■"
 
 # --- フッター ---
 # footer = "© Your Name"          # フッターに表示するテキスト
@@ -54,7 +57,8 @@ minify_html = true
 # index_heading = "Posts"         # トップページの記事一覧の見出し（デフォルト: "Posts"）
 
 # --- ナビゲーション ---
-# nav = [
-#   { label = "トップ", url = "/" },
-#   { label = "記事一覧", url = "/posts/" },
-# ]
+nav = [
+  { label = "トップ", url = "/" },
+  { label = "記事一覧", url = "/posts/" },
+  { label = "GitHub", url = "https://github.com/kako-jun/avel" },
+]
