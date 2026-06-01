@@ -49,6 +49,9 @@ nav_bullet = "■"                  # ナビ項目の先頭記号（デフォル
 # --- 日付 ---
 date_format = "%Y年%m月%d日"
 
+# --- シェアボタン ---
+share = true                      # 記事末尾に X・はてな のシェアリンクを表示
+
 # --- フッター ---
 # footer = "© Your Name"
 
