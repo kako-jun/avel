@@ -14,6 +14,8 @@ highlight_code = true
 # --- プロフィール ---
 # name = "Your Name"
 # profile_image = "me.webp"       # static/ に置いた画像ファイル名
+# profile_width = "350"           # プロフィール画像の幅（デフォルト: 350）
+# profile_height = "350"          # プロフィール画像の高さ（デフォルト: 350）— CLS 防止のため設定推奨
 
 # --- 背景 ---
 # background_image = "bg.webp"    # static/ に置いた画像ファイル名
