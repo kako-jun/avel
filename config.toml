@@ -8,6 +8,7 @@ feed_filenames = ["atom.xml"]
 minify_html = true
 
 [markdown]
+lazy_async_image = true
 
 [[taxonomies]]
 name = "tags"
