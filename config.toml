@@ -8,7 +8,6 @@ feed_filenames = ["atom.xml"]
 minify_html = true
 
 [markdown]
-highlight_code = true
 
 [extra]
 # --- プロフィール ---
