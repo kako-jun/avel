@@ -99,7 +99,7 @@ All defaults recreate the Abe Hiroshi look. Uncomment any line to override it.
 content/
   _index.md              # top page
   posts/
-    _index.md            # posts section (sort_by = "date", transparent = true, paginate_by = 10)
+    _index.md            # posts section (sort_by = "date", transparent = true, paginate_by = 20)
     my-post.md           # a post
 ```
 
