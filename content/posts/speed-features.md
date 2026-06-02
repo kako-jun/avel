@@ -26,7 +26,7 @@ view_transitions = true   # 既定で有効
 speculation_rules = true   # 既定で有効
 ```
 
-外部リンクとフィード（`/atom.xml`）は対象外です。この機能のためだけに、宣言的な `<script>` がひとつだけ入ります。これは動作するコードではなく、ブラウザへの指示書きにあたります。
+外部リンクとフィード（`/atom.xml`）は対象外です。この機能のために、宣言的な `<script type="speculationrules">` が 1 つ入ります（SEO 用の JSON-LD とは別物です）。どちらも動作するコードではなく、ブラウザへの指示書きやデータにあたります。
 
 ## 画面外の描画を後回しに（content-visibility）
 

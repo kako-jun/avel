@@ -6,7 +6,7 @@
 
 - **Instant display** — pure HTML streamed top-to-bottom; the first characters paint immediately, nothing waits on a wrapper to finish loading
 - **Instant navigation** — internal links are prerendered on hover (Speculation Rules) and cross-faded with CSS View Transitions; clicking feels like ~0ms
-- **No runtime JavaScript, zero external resources** by default (no web fonts, no CDN; the only `<script>` is a declarative Speculation Rules hint, which you can switch off)
+- **No runtime JavaScript, zero external resources** by default (no web fonts, no CDN; the only `<script>` tags are declarative data — JSON-LD structured data and a Speculation Rules hint — never executed code, and both can be switched off)
 - **Inline critical CSS** — no render-blocking external stylesheet request
 - **`content-visibility` for off-screen content** — long lists/articles skip rendering until scrolled into view, while on-screen text still paints instantly
 - **Responsive** — Abe's site isn't; avel is (one CSS media query, no JS)
@@ -56,7 +56,7 @@ All defaults recreate the Abe Hiroshi look. Uncomment any line to override it.
 # nav_width = "18%"               # default: 18% (Abe's frameset is cols=18,82)
 # nav_bg = "#f0f0ff"              # default: #f0f0ff (pale lavender)
 # nav_border = true               # default: true (right divider, a nod to the old frame border)
-# nav_item_gap = ".9em"           # default: .9em
+# nav_item_gap = "1.3em"          # default: 1.3em
 # nav_bullet = "●"                # default: ● (set "" to remove)
 # nav_bullet_colors = ["#ffcccc","#00ff00","#33ffff","#0099ff","#0000ff","#333399","#cc00cc"]  # default: Abe's 7-color cycle
 # main_padding = "1em"
@@ -101,13 +101,14 @@ All defaults recreate the Abe Hiroshi look. Uncomment any line to override it.
 
 ```
 content/
-  _index.md              # top page
+  _index.md              # top page (template = "index.html")
   posts/
-    _index.md            # posts section (sort_by = "date", transparent = true, paginate_by = 20)
+    _index.md            # posts section (sort_by = "date", paginate_by = 20)
     my-post.md           # a post
+  archive.md             # year-grouped archive (template = "archive.html", weight = 1)
 ```
 
-`transparent = true` in `posts/_index.md` makes posts visible in the top page list.
+The top page pulls the latest posts directly via `get_section()` in `index.html`, so no `transparent` flag is needed on `posts/_index.md`.
 
 ## Tags
 
