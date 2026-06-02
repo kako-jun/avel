@@ -1,5 +1,5 @@
 name = "avel"
-description = "A minimal, no-JS Zola theme. Inspired by Abe Hiroshi's homepage."
+description = "The fastest-rendering, no-JS Zola blog theme. A modern, responsive homage to Abe Hiroshi's homepage."
 license = "MIT"
 homepage = "https://github.com/kako-jun/avel"
 min_version = "0.19.0"

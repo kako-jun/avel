@@ -1,6 +1,6 @@
 base_url = "https://avel.llll-ll.com"
 title = "avel のホームページ"
-description = "A minimal, no-JS blog powered by Zola"
+description = "とにかく表示が速い、no-JS の Zola ブログテーマ（阿部寛のホームページへのリスペクト）"
 default_language = "ja"
 compile_sass = false
 generate_feeds = true
@@ -17,37 +17,50 @@ feed = false
 lang = "ja"
 
 [extra]
-# --- プロフィール ---
+# 既定値は「阿部寛のホームページ」を再現する設定。
+# どれもコメントを外せば上書きできる（カスタマイズ用のノブ）。
+
+# --- プロフィール（本家と同じくトップページ本文の中央に表示。サイドバーには出さない）---
 name = "Ave L"
 profile_image = "avatar.svg"
 profile_width = "120"
 profile_height = "120"
+# profile_text = "ひとことプロフィール"   # 名前の下に出る短い紹介文（任意）
 
 # --- 背景 ---
 background_image = "bg.svg"
 # body_bg = "#ffffff"             # 背景画像なしのときの背景色
 
 # --- レイアウト ---
-# nav_width = "18%"               # サイドバー幅（デフォルト: 18%）
-# nav_bg = "#9999cc"              # サイドバー背景色（デフォルト: #9999cc）
-nav_bullet = "■"                  # ナビ項目の先頭記号（デフォルト: なし）例: ■ ● ▶
+# nav_width = "18%"               # サイドバー幅（デフォルト: 18%。本家も cols=18,82）
+# nav_bg = "#f0f0ff"              # サイドバー背景色（デフォルト: #f0f0ff 淡い薄紫）
+# nav_border = true               # サイドバー右の境界線（デフォルト: 表示。フレーム枠の名残）
+# nav_item_gap = ".9em"           # ナビ項目の上下間隔（デフォルト: .9em）
+# nav_bullet = "●"                # ナビ項目の先頭記号（デフォルト: ● 。"" で消す）
+# nav_bullet_colors = ["#ffcccc","#00ff00","#33ffff","#0099ff","#0000ff","#333399","#cc00cc"]  # ● を項目ごとに循環着色（デフォルト: 本家7色）
 # main_padding = "1em"            # メインエリアの余白
 # max_width = "960px"             # ページ全体の最大幅
 # content_align = "left"         # 本文の文字揃え: left / center / justify
+# title_align = "center"          # ページタイトル(h1)の文字揃え（デフォルト: center）
 # line_height = "1.5"            # 行間（デフォルト: 1.5）
 
 # --- フォント ---
-# font = "sans-serif"             # serif / sans-serif / monospace（総称ファミリー）
+# font = "serif"                  # serif / sans-serif / monospace（デフォルト: serif=明朝。本家は CSS なしの既定セリフ）
 # font_family = ""                # 具体的な書体名（システムフォントのみなら外部読み込みなし）
 # google_fonts_url = ""           # Google Fonts の URL
-# font_size = "13px"              # ベースフォントサイズ（デフォルト: 13px）
+# font_size = "16px"              # ベースフォントサイズ（デフォルト: 16px=ブラウザ既定）
 
-# --- リンク色 ---
-# link_color = "#0000cc"          # リンクの色
+# --- 文字色・リンク色 ---
+# text_color = "#000000"          # 本文の文字色（デフォルト: 黒）
+# link_color = "#0000ee"          # リンクの色（デフォルト: ブラウザ既定の青）
 # link_visited = "#551a8b"        # 訪問済みリンクの色
 
 # --- 日付 ---
 date_format = "%Y年%m月%d日"
+
+# --- 高速化（モダン機能・既定 ON。看板は「とにかく表示が速い」）---
+# view_transitions = true         # ページ遷移を CSS でなめらかフェード（@view-transition、JS 不要）
+# speculation_rules = true        # 内部リンクをホバー時に prerender し体感 0ms 遷移（宣言的 script 1個。外部/atom.xml は除外）
 
 # --- シェアボタン ---
 share = true                      # 記事末尾に X・はてな のシェアリンクを表示
