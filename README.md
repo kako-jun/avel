@@ -1,6 +1,6 @@
 # avel
 
-<p><img src="static/lighthouse-100.svg" alt="Lighthouse 100 / 100 / 100 / 100" width="600"></p>
+<p><img src="static/lighthouse.webp" alt="Lighthouse 100 / 100 / 100 / 100" width="453"></p>
 
 **The fastest-rendering [Zola](https://www.getzola.org/) blog theme.** A homage to the legendary [Abe Hiroshi's homepage](http://abehiroshi.la.coocan.jp/) — the page that renders before you blink — rebuilt as a modern, responsive, fully customizable theme.
 
@@ -10,6 +10,7 @@
 - **Inline critical CSS** — no render-blocking external stylesheet request
 - **`content-visibility` for off-screen content** — long lists/articles skip rendering until scrolled into view, while on-screen text still paints instantly
 - **Responsive** — Abe's site isn't; avel is (one CSS media query, no JS)
+- **SEO out of the box** — canonical URL, Open Graph, Twitter Card, JSON-LD structured data, sitemap and feed autodiscovery, all emitted by default with zero runtime JS
 - **Lazy-loaded content images**, eager LCP image with `fetchpriority`
 - **Fully customizable** via `config.toml` — defaults recreate the Abe look, every knob is overridable, no HTML/CSS editing needed
 
@@ -81,8 +82,9 @@ All defaults recreate the Abe Hiroshi look. Uncomment any line to override it.
 # --- Footer ---
 # footer = "© Your Name"
 
-# --- OGP ---
-# og_image = "og.webp"            # place in static/
+# --- SEO / OGP (canonical, Open Graph, Twitter Card, and JSON-LD are emitted by default) ---
+# og_image = "og.webp"            # OGP/Twitter card image, place in static/ (output as an absolute URL)
+# twitter = "@yourhandle"         # twitter:site handle for Twitter Cards
 
 # --- Navigation ---
 # nav = [

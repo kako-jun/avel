@@ -12,4 +12,6 @@ HTML はブラウザに届いたそばから、上から順に描画されてい
 
 Lighthouse のスコアは、Performance・Accessibility・Best Practices・SEO のいずれも 100 を目標にしています。低速な回線でも古い端末でも、待たされる感覚は少ないはずです。
 
+![Lighthouse スコア（Performance / Accessibility / Best Practices / SEO すべて 100）](/lighthouse.webp)
+
 阿部寛のホームページが速いのも、同じ理由だと思います。余計なものを置かない、それだけのことです。

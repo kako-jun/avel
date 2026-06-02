@@ -14,9 +14,9 @@ tags = ["usage"]
 
 Markdown で書いた画像には、自動的に `loading="lazy"` が付きます（`config.toml` の `lazy_async_image = true` によるものです）。画面に入るまで読み込みを後回しにできるので、表示の速さを保てます。
 
-実際の表示は次のとおりです。
+たとえば、avel で作ったページの Lighthouse スコアはこのようになります。画像は自動で遅延読み込みされます。
 
-![sample image](/sample.svg)
+![avel の Lighthouse スコア（Performance / Accessibility / Best Practices / SEO すべて 100）](/lighthouse.webp)
 
 HTML で直接書く場合は、自分で指定します。表示のずれ（CLS）を防ぐため、`width`・`height` も両方書いておくとよいでしょう。
 
