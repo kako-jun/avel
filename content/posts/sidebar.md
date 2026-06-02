@@ -13,7 +13,7 @@ tags = ["configuration"]
 nav_width = "18%"        # サイドバーの幅
 nav_bg = "#f0f0ff"       # 背景色
 nav_border = true        # 右側の境界線（フレーム枠の名残）
-nav_item_gap = ".9em"    # 項目どうしの上下の間隔
+nav_item_gap = "1.3em"   # 項目どうしの上下の間隔
 ```
 
 リンクの追加や、箇条書き記号「●」の色の変更については、[ナビゲーションのカスタマイズ](/posts/navigation/)をご覧ください。

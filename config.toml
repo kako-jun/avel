@@ -24,9 +24,16 @@ lang = "ja"
 # --- プロフィール（本家と同じくトップページ本文の中央に表示。サイドバーには出さない）---
 name = "Ave L"
 profile_image = "avatar.svg"
-profile_width = "120"
-profile_height = "120"
-# profile_text = "ひとことプロフィール"   # 名前の下に出る短い紹介文（任意）
+profile_width = "200"
+profile_height = "200"
+profile_text = "Zola でブログを書いています。"   # 名前の下に出る短い紹介文（任意）
+
+# 連絡先＝SNS アカウント一覧（アバターの下に表示。阿部寛サイトの「連絡先」欄に相当）
+social = [
+  { label = "X", url = "https://x.com/" },
+  { label = "GitHub", url = "https://github.com/kako-jun/avel" },
+  { label = "Bluesky", url = "https://bsky.app/" },
+]
 
 # --- 背景 ---
 background_image = "bg.svg"
@@ -36,7 +43,7 @@ background_image = "bg.svg"
 # nav_width = "18%"               # サイドバー幅（デフォルト: 18%。本家も cols=18,82）
 # nav_bg = "#f0f0ff"              # サイドバー背景色（デフォルト: #f0f0ff 淡い薄紫）
 # nav_border = true               # サイドバー右の境界線（デフォルト: 表示。フレーム枠の名残）
-# nav_item_gap = ".9em"           # ナビ項目の上下間隔（デフォルト: .9em）
+# nav_item_gap = "1.3em"          # ナビ項目の上下間隔（デフォルト: 1.3em。本家のゆったりした間隔に合わせた）
 # nav_bullet = "●"                # ナビ項目の先頭記号（デフォルト: ● 。"" で消す）
 # nav_bullet_colors = ["#ffcccc","#00ff00","#33ffff","#0099ff","#0000ff","#333399","#cc00cc"]  # ● を項目ごとに循環着色（デフォルト: 本家7色）
 # main_padding = "1em"            # メインエリアの余白
@@ -46,7 +53,7 @@ background_image = "bg.svg"
 # line_height = "1.5"            # 行間（デフォルト: 1.5）
 
 # --- フォント ---
-# font = "serif"                  # serif / sans-serif / monospace（デフォルト: serif=明朝。本家は CSS なしの既定セリフ）
+# font = "sans-serif"             # serif / sans-serif / monospace（デフォルト: sans-serif=ゴシック。本家は CSS なしでブラウザ既定=ゴシック表示）
 # font_family = ""                # 具体的な書体名（システムフォントのみなら外部読み込みなし）
 # google_fonts_url = ""           # Google Fonts の URL
 # font_size = "16px"              # ベースフォントサイズ（デフォルト: 16px=ブラウザ既定）

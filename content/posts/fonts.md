@@ -6,14 +6,14 @@ date = 2025-07-01
 tags = ["configuration"]
 +++
 
-既定のフォントは `serif`（明朝体）です。阿部寛のホームページが、CSS を持たずブラウザ標準のセリフ体で表示されるのに倣っています。ゴシック体にしたい場合や、別の書体を使いたい場合は `config.toml` で変更できます。
+既定のフォントは `sans-serif`（ゴシック体）です。阿部寛のホームページが CSS を持たず、多くのブラウザの既定フォント（日本語ではゴシック体）で表示されるのに倣っています。明朝体にしたい場合や、別の書体を使いたい場合は `config.toml` で変更できます。
 
 ## システムフォント
 
 ```toml
 [extra]
-font = "sans-serif"
-font_family = "Helvetica"
+font = "serif"
+font_family = "Georgia"
 font_size = "14px"
 ```
 

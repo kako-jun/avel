@@ -62,7 +62,7 @@ All defaults recreate the Abe Hiroshi look. Uncomment any line to override it.
 # line_height = "1.5"            # default: 1.5
 
 # --- Font ---
-# font = "serif"                  # serif / sans-serif / monospace, default: serif (Abe renders in the browser default serif)
+# font = "sans-serif"             # serif / sans-serif / monospace, default: sans-serif (Abe is unstyled, so it shows the browser default — gothic for Japanese)
 # font_family = "Georgia"         # system fonts only = no external requests
 # google_fonts_url = "https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap"
 # font_size = "16px"              # default: 16px (browser default)
