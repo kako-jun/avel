@@ -6,7 +6,7 @@ date = 2025-08-01
 tags = ["configuration"]
 +++
 
-`config.toml` に taxonomy を追加する。
+`config.toml` に taxonomy を追加します。
 
 ```toml
 [[taxonomies]]
@@ -16,7 +16,7 @@ feed = false
 lang = "ja"
 ```
 
-記事のフロントマターにタグを書く。
+記事のフロントマターにタグを書きます。
 
 ```toml
 +++
@@ -28,4 +28,4 @@ tags = ["foo", "bar"]
 +++
 ```
 
-`/tags/` にタグ一覧、`/tags/{name}/` にタグ別記事一覧が生成される。
+これで `/tags/` にタグ一覧が、`/tags/{name}/` にタグ別の記事一覧が生成されます。

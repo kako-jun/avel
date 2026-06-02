@@ -8,13 +8,13 @@ tags = ["about"]
 
 avel は [getzola.org/themes](https://www.getzola.org/themes/) に登録されています。
 
-Zola テーマの登録は、公式リポジトリへの PR で行います。`theme.toml` に必要な情報を記載し、デモ URL と スクリーンショットを添えます。
+Zola テーマの登録は、公式リポジトリへの PR で行います。`theme.toml` に必要な情報を記載し、デモ URL とスクリーンショットを添えて申請します。
 
-avel の `theme.toml`:
+avel の `theme.toml` は次のようになっています。
 
 ```toml
 name = "avel"
-description = "A minimal, no-JS Zola theme. Inspired by Abe Hiroshi's homepage."
+description = "The fastest-rendering, no-JS Zola blog theme. A modern, responsive homage to Abe Hiroshi's homepage."
 license = "MIT"
 homepage = "https://github.com/kako-jun/avel"
 min_version = "0.19.0"
