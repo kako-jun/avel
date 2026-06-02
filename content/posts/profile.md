@@ -29,8 +29,8 @@ profile_text = "ひとことプロフィール"
 [extra]
 social = [
   { label = "X", url = "https://x.com/yourname" },
+  { label = "Instagram", url = "https://instagram.com/yourname" },
   { label = "GitHub", url = "https://github.com/yourname" },
-  { label = "Bluesky", url = "https://bsky.app/profile/yourname" },
 ]
 ```
 
