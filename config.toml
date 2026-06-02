@@ -41,6 +41,7 @@ social = [
 
 # --- 背景 ---
 background_image = "bg.svg"
+# background_image_dark = "bg-dark.svg"   # ダークモード時の背景（既定: bg-dark.svg。明地ウォーターマークは暗背景で潰れるため別画像に切替）
 # body_bg = "#ffffff"             # 背景画像なしのときの背景色
 
 # --- レイアウト ---
