@@ -11,6 +11,10 @@
 - **`content-visibility` for off-screen content** — long lists/articles skip rendering until scrolled into view, while on-screen text still paints instantly
 - **Responsive** — Abe's site isn't; avel is (one CSS media query, no JS)
 - **SEO out of the box** — canonical URL, Open Graph, Twitter Card, JSON-LD structured data, sitemap and feed autodiscovery, all emitted by default with zero runtime JS
+- **Syntax-highlighted code** — build-time highlighting with inline styles (no JS, no extra request)
+- **Automatic dark mode** — follows `prefers-color-scheme` with CSS only; set `dark_mode = false` to stay always-light
+- **Content organization** — tags, a year-grouped archive, and tag-based related posts
+- **Custom 404 page and favicon** (favicon overridable via config)
 - **Lazy-loaded content images**, eager LCP image with `fetchpriority`
 - **Fully customizable** via `config.toml` — defaults recreate the Abe look, every knob is overridable, no HTML/CSS editing needed
 
