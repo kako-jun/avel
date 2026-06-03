@@ -27,7 +27,7 @@ lang = "ja"
 
 # --- プロフィール（本家と同じくトップページ本文の中央に表示。サイドバーには出さない）---
 name = "Ave L"
-profile_image = "avatar.svg"
+profile_image = "avatar.webp"
 profile_width = "200"
 profile_height = "200"
 profile_text = "Zola でブログを書いています。"   # 名前の下に出る短い紹介文（任意）
