@@ -147,7 +147,18 @@ Cloudflare Pages can use:
 npm run sync:nostalgic-bbs && zola build
 ```
 
-The sync script writes `data/nostalgic_bbs.toml`, keyed by Zola `page.path`. Existing ids are reused, so repeated builds do not call Nostalgic for every article. New posts are looked up/created by URL with the token kept in the build environment. Nostalgic BBS does not yet expose `batchGet`; once it does, the script is structured to use safe 50-item chunks to stay under D1's 100-bind limit.
+The sync script writes `data/nostalgic_bbs.toml`, keyed by Zola `page.path`.
+
+```toml
+[posts]
+"/posts/my-post/" = "my-post-bbs-id"
+```
+
+Existing ids in this file are reused, so repeated builds do not call Nostalgic for every article. New posts are looked up/created by their final permalink URL with the token kept in the build environment. If `NOSTALGIC_TOKEN` is not set, the script leaves the existing mapping untouched and skips missing posts, so ordinary theme builds still work.
+
+The generated `data/nostalgic_bbs.toml` may be committed for stable local builds, or generated only in the deployment environment. In either case, never put `NOSTALGIC_TOKEN` in front matter, templates, or generated HTML.
+
+Nostalgic BBS does not yet expose `batchGet`. Once it does, the script is structured to use safe 50-item chunks to stay under D1's 100-bind limit.
 
 ## Tags
 
