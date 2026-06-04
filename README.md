@@ -11,6 +11,7 @@
 - **`content-visibility` for off-screen content** — long lists/articles skip rendering until scrolled into view, while on-screen text still paints instantly
 - **Responsive** — Abe's site isn't; avel is (one CSS media query, no JS)
 - **SEO out of the box** — canonical URL, Open Graph, Twitter Card, JSON-LD structured data, sitemap and feed autodiscovery, all emitted by default with zero runtime JS
+- **Optional no-JS comments** — show a per-post Nostalgic BBS image that opens the interactive posting page only when clicked
 - **Syntax-highlighted code** — build-time highlighting with inline styles (no JS, no extra request)
 - **Automatic dark mode** — follows `prefers-color-scheme` with CSS only; set `dark_mode = false` to stay always-light
 - **Content organization** — tags, a year-grouped archive, and tag-based related posts
@@ -83,6 +84,10 @@ All defaults recreate the Abe Hiroshi look. Uncomment any line to override it.
 # --- Date ---
 # date_format = "%Y-%m-%d"        # e.g. "%Y年%m月%d日"
 
+# --- Nostalgic BBS comments (no JS on article pages; click the image to post) ---
+# nostalgic_bbs = false
+# nostalgic_bbs_limit = 3
+
 # --- Footer ---
 # footer = "© Your Name"
 
@@ -109,6 +114,40 @@ content/
 ```
 
 The top page pulls the latest posts directly via `get_section()` in `index.html`, so no `transparent` flag is needed on `posts/_index.md`.
+
+## Nostalgic BBS comments
+
+avel can show a per-post [Nostalgic BBS](https://nostalgic.llll-ll.com/bbs) image below the share links. Article pages stay JavaScript-free; clicking the image opens Nostalgic's interactive BBS page where visitors can post.
+
+Enable rendering:
+
+```toml
+[extra]
+nostalgic_bbs = true
+nostalgic_bbs_limit = 3
+```
+
+For a manually managed post, set its public BBS id in front matter:
+
+```toml
+[extra]
+nostalgic_bbs_id = "your-bbs-id"
+```
+
+For automatic per-post provisioning, set `NOSTALGIC_TOKEN` in the build environment and run:
+
+```bash
+npm run sync:nostalgic-bbs
+zola build
+```
+
+Cloudflare Pages can use:
+
+```bash
+npm run sync:nostalgic-bbs && zola build
+```
+
+The sync script writes `data/nostalgic_bbs.toml`, keyed by Zola `page.path`. Existing ids are reused, so repeated builds do not call Nostalgic for every article. New posts are looked up/created by URL with the token kept in the build environment. Nostalgic BBS does not yet expose `batchGet`; once it does, the script is structured to use safe 50-item chunks to stay under D1's 100-bind limit.
 
 ## Tags
 
