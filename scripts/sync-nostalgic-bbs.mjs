@@ -107,7 +107,7 @@ async function postJson(action, body) {
   return { ok: response.ok, status: response.status, json };
 }
 
-async function lookupOrCreateBbs(url) {
+async function lookupOrCreateBbs(url, title) {
   const lookup = await postJson("get", { url, token, limit: 1 });
   if (lookup.ok && lookup.json?.success && lookup.json?.data?.id) {
     return lookup.json.data.id;
@@ -120,7 +120,7 @@ async function lookupOrCreateBbs(url) {
   const created = await postJson("create", {
     url,
     token,
-    title: "Comments",
+    title: title ? `${title} comments` : "Comments",
     maxMessages: 100,
     messagesPerPage: 20,
   });
@@ -149,7 +149,7 @@ async function main() {
     }
     const pagePath = pagePathForFile(file, frontmatter);
     if (next[pagePath]) continue;
-    missing.push({ pagePath, url: `${baseUrl}${pagePath}` });
+    missing.push({ pagePath, title: parseScalar(frontmatter, "title"), url: `${baseUrl}${pagePath}` });
   }
 
   if (!token) {
@@ -163,7 +163,7 @@ async function main() {
   // use BATCH_LIMIT-sized chunks here; D1 bind variables are limited to 100.
   for (let i = 0; i < missing.length; i += BATCH_LIMIT) {
     for (const item of missing.slice(i, i + BATCH_LIMIT)) {
-      next[item.pagePath] = await lookupOrCreateBbs(item.url);
+      next[item.pagePath] = await lookupOrCreateBbs(item.url, item.title);
       console.log(`${item.pagePath} -> ${next[item.pagePath]}`);
     }
   }
