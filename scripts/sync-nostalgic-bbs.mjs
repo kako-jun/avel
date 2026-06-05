@@ -2,13 +2,14 @@ import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import path from "node:path";
 
-const CONTENT_DIR = "content/posts";
+const DEFAULT_CONTENT_DIR = "content/posts";
 const DATA_FILE = "data/nostalgic_bbs.toml";
 const DEFAULT_API_BASE = "https://api.nostalgic.llll-ll.com";
 const BATCH_LOOKUP_LIMIT = 1000;
 
 const token = process.env.NOSTALGIC_TOKEN || "";
 const apiBase = (process.env.NOSTALGIC_API_BASE || DEFAULT_API_BASE).replace(/\/$/, "");
+const CONTENT_DIR = process.env.NOSTALGIC_CONTENT_DIR || DEFAULT_CONTENT_DIR;
 
 function normalizePath(value) {
   const trimmed = value.trim().replace(/^\/+|\/+$/g, "");
