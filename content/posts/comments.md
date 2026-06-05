@@ -14,7 +14,12 @@ avel は、記事の末尾に [Nostalgic BBS](https://nostalgic.llll-ll.com/bbs)
 [extra]
 nostalgic_bbs = true
 nostalgic_bbs_limit = 3
+nostalgic_bbs_width = 760
+nostalgic_bbs_label = "Comments"
+nostalgic_bbs_hint = "クリックで書き込めます"
 ```
+
+画像は `nostalgic_bbs_width` の幅で生成されますが、ページ上では画面幅に合わせて縮むため横スクロールは出ません。`nostalgic_bbs_label` は画像の上、`nostalgic_bbs_hint` は画像の下に表示されます。
 
 記事ごとの BBS は、ビルド前に同期スクリプトを実行して用意します。
 

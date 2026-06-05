@@ -87,6 +87,9 @@ All defaults recreate the Abe Hiroshi look. Uncomment any line to override it.
 # --- Nostalgic BBS comments (no JS on article pages; click the image to post) ---
 # nostalgic_bbs = false
 # nostalgic_bbs_limit = 3
+# nostalgic_bbs_width = 760
+# nostalgic_bbs_label = "Comments"
+# nostalgic_bbs_hint = "Click to comment"
 
 # --- Footer ---
 # footer = "© Your Name"
@@ -125,6 +128,9 @@ Enable rendering:
 [extra]
 nostalgic_bbs = true
 nostalgic_bbs_limit = 3
+nostalgic_bbs_width = 760
+nostalgic_bbs_label = "Comments"
+nostalgic_bbs_hint = "クリックで書き込めます"
 ```
 
 For per-post provisioning, set `NOSTALGIC_TOKEN` in the build environment and run:
