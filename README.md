@@ -161,6 +161,101 @@ The generated `data/nostalgic_bbs.toml` may be committed for stable local builds
 
 `batchLookup` accepts up to 1000 URLs per request. Nostalgic handles any lower-level D1 query chunking internally, so avel does not split requests just to satisfy SQLite bind limits.
 
+## Using the auto comment section with any Zola theme
+
+The Nostalgic BBS comment block is an independent component that works with any Zola theme. You do not need to modify the theme itself. Follow these four steps to embed per-post comment sections without adding JavaScript to your article pages.
+
+**Prerequisites:** Nostalgic is free and requires no account sign-up. Choose any 8–16 character string as your token. See [nostalgic.llll-ll.com](https://nostalgic.llll-ll.com) for details.
+
+> **avel users:** If you are using avel as your theme, this is already set up. Just set `nostalgic_bbs = true` in your `config.toml` and run `npm run sync:nostalgic-bbs` before building. No further steps are needed.
+
+### Step 1 — Copy the sync script
+
+Copy `scripts/sync-nostalgic-bbs.mjs` from this repository into your own site's `scripts/` directory. Then change your build command to run the script before Zola:
+
+```bash
+node scripts/sync-nostalgic-bbs.mjs && zola build
+```
+
+For Cloudflare Pages (or any CI environment), set the same command as the build command in the dashboard.
+
+The script scans `content/posts/` by default. If your posts live in a different directory, set the `NOSTALGIC_CONTENT_DIR` environment variable:
+
+```bash
+NOSTALGIC_CONTENT_DIR=content/articles node scripts/sync-nostalgic-bbs.mjs && zola build
+```
+
+### Step 2 — Set the token as an environment variable
+
+The script reads `process.env.NOSTALGIC_TOKEN`. **Never commit the token to your repository.**
+
+For local builds, set it in your shell:
+
+```bash
+export NOSTALGIC_TOKEN=your-token-here
+```
+
+For Cloudflare Pages or other CI environments, add `NOSTALGIC_TOKEN` as an environment variable in the project settings.
+
+If `NOSTALGIC_TOKEN` is not set, the script keeps any existing BBS ids intact and exits without creating new entries. Posts that already have a BBS id will continue to show their comment section; only new posts without an id are skipped.
+
+### Step 3 — Add settings to `config.toml`
+
+Only `nostalgic_bbs = true` is required. The other four keys are optional — the template snippet provides defaults for all of them.
+
+```toml
+[extra]
+nostalgic_bbs = true
+nostalgic_bbs_limit = 3          # number of recent comments shown in the image (optional, default 3)
+nostalgic_bbs_width = 760        # pixel width used when generating the SVG image (optional, default 760)
+nostalgic_bbs_label = "Comments" # heading text above the image (optional, default "Comments")
+nostalgic_bbs_hint = "Click to comment" # caption text below the image (optional, default "Click to comment")
+```
+
+### Step 4 — Add the snippet to your `templates/page.html`
+
+Override your theme's page template by creating `templates/page.html` in your site root (Zola looks there before the theme directory). Copy this snippet and place it where you want the comment section to appear — typically after the article body.
+
+> This is the minimal paste-in fragment. avel's own `templates/page.html` is the full version with CSS classes and additional markup. If you want the comment section to match avel's styling, refer to that file instead.
+
+```html
+{% if config.extra.nostalgic_bbs | default(value=false) %}
+{% set_global nostalgic_bbs_public_id = "" %}
+{% set nostalgic_bbs = load_data(path="data/nostalgic_bbs.toml", required=false) %}
+{% if nostalgic_bbs and nostalgic_bbs.posts %}
+  {% for post_path, post_bbs_id in nostalgic_bbs.posts %}
+    {% if post_path == current_path %}
+      {% set_global nostalgic_bbs_public_id = post_bbs_id %}
+    {% endif %}
+  {% endfor %}
+{% endif %}
+{% if nostalgic_bbs_public_id %}
+  {% set limit = config.extra.nostalgic_bbs_limit | default(value=3) %}
+  {% set width = config.extra.nostalgic_bbs_width | default(value=760) %}
+  {% set label = config.extra.nostalgic_bbs_label | default(value="Comments") %}
+  {% set hint  = config.extra.nostalgic_bbs_hint  | default(value="Click to comment") %}
+  <div class="nostalgic-bbs">
+    <p>{{ label }}</p>
+    <a href="https://nostalgic.llll-ll.com/bbs?id={{ nostalgic_bbs_public_id | urlencode }}"
+       target="_blank" rel="noopener noreferrer">
+      <img src="https://api.nostalgic.llll-ll.com/bbs?action=get&id={{ nostalgic_bbs_public_id | urlencode }}&format=image&limit={{ limit }}&width={{ width }}"
+           alt="{{ label }} for {{ page.title }}"
+           loading="lazy" decoding="async">
+    </a>
+    <p>{{ hint }}</p>
+  </div>
+{% endif %}
+{% endif %}
+```
+
+### Why no JavaScript?
+
+The comment display is a static `<img>` tag pointing to a Nostalgic API endpoint that returns an SVG. Clicking it navigates to the interactive Nostalgic BBS page where visitors post. This means:
+
+- Article pages contain **zero JavaScript** for comments
+- Comments render even with JavaScript disabled in the browser
+- No third-party script is loaded; only one image request is made per article page view
+
 ## Tags
 
 Add `[[taxonomies]]` to `config.toml`:
