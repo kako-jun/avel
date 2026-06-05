@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "build": "zola build",
+    "build": "npm run sync:nostalgic-bbs && zola build",
     "sync:nostalgic-bbs": "node scripts/sync-nostalgic-bbs.mjs"
   }
 }
