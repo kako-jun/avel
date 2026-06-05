@@ -30,6 +30,6 @@ zola build
 "/posts/my-post/" = "my-post-bbs-id"
 ```
 
-既に ID がある記事は再利用されるので、毎回すべての記事を Nostalgic に問い合わせるわけではありません。新しい記事だけ、完成後の permalink URL で検索し、見つからなければ `Comments` という名前で作成します。
+既に ID がある記事は再利用されるので、毎回すべての記事を Nostalgic に問い合わせるわけではありません。新しい記事だけ、完成後の permalink URL をまとめて `batchLookup` で検索し、見つからなければ `Comments` という名前で作成します。`batchLookup` は 1 回に最大 1000 URL を受け付け、Nostalgic 側が DB の内部分割を処理します。
 
 `NOSTALGIC_TOKEN` はビルド環境の環境変数に置いてください。front matter やテンプレート、生成された HTML に token を書く必要はありません。既存 BBS を手動で固定したい場合は、記事 Markdown ではなく `data/nostalgic_bbs.toml` を直接編集します。

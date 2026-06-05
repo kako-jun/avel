@@ -5,7 +5,7 @@ import path from "node:path";
 const CONTENT_DIR = "content/posts";
 const DATA_FILE = "data/nostalgic_bbs.toml";
 const DEFAULT_API_BASE = "https://api.nostalgic.llll-ll.com";
-const BATCH_LIMIT = 50;
+const BATCH_LOOKUP_LIMIT = 1000;
 
 const token = process.env.NOSTALGIC_TOKEN || "";
 const apiBase = (process.env.NOSTALGIC_API_BASE || DEFAULT_API_BASE).replace(/\/$/, "");
@@ -98,16 +98,7 @@ async function postJson(action, body) {
   return { ok: response.ok, status: response.status, json };
 }
 
-async function lookupOrCreateBbs(url) {
-  const lookup = await postJson("get", { url, token, limit: 1 });
-  if (lookup.ok && lookup.json?.success && lookup.json?.data?.id) {
-    return lookup.json.data.id;
-  }
-
-  if (lookup.status !== 404 && lookup.json?.error !== "BBS not found") {
-    throw new Error(`BBS lookup failed for ${url}: ${lookup.status} ${lookup.json?.error || ""}`.trim());
-  }
-
+async function createBbs(url) {
   const created = await postJson("create", {
     url,
     token,
@@ -119,6 +110,17 @@ async function lookupOrCreateBbs(url) {
     throw new Error(`BBS create failed for ${url}: ${created.status} ${created.json?.error || ""}`.trim());
   }
   return created.json.id;
+}
+
+async function batchLookupBbs(items) {
+  const lookup = await postJson("batchLookup", {
+    urls: items.map((item) => item.url),
+    token,
+  });
+  if (!lookup.ok || !lookup.json?.success || !Array.isArray(lookup.json?.data)) {
+    throw new Error(`BBS batchLookup failed: ${lookup.status} ${lookup.json?.error || ""}`.trim());
+  }
+  return lookup.json.data;
 }
 
 async function main() {
@@ -145,11 +147,26 @@ async function main() {
     return;
   }
 
-  // Nostalgic BBS does not expose batchLookup yet. If it grows a URL-based batch owner lookup,
-  // use BATCH_LIMIT-sized chunks here; D1 bind variables are limited to 100.
-  for (let i = 0; i < missing.length; i += BATCH_LIMIT) {
-    for (const item of missing.slice(i, i + BATCH_LIMIT)) {
-      next[item.pagePath] = await lookupOrCreateBbs(item.url);
+  for (let i = 0; i < missing.length; i += BATCH_LOOKUP_LIMIT) {
+    const chunk = missing.slice(i, i + BATCH_LOOKUP_LIMIT);
+    const lookupResults = await batchLookupBbs(chunk);
+
+    for (let j = 0; j < chunk.length; j += 1) {
+      const item = chunk[j];
+      const result = lookupResults[j];
+      if (!result || result.url !== item.url) {
+        throw new Error(`BBS batchLookup returned an unexpected result order for ${item.url}`);
+      }
+
+      if (result.exists && result.authorized === false) {
+        throw new Error(`BBS already exists for ${item.url}, but NOSTALGIC_TOKEN is not its owner token`);
+      }
+
+      if (result.exists && !result.id) {
+        throw new Error(`BBS batchLookup returned an existing BBS without an id for ${item.url}`);
+      }
+
+      next[item.pagePath] = result.exists ? result.id : await createBbs(item.url);
       console.log(`${item.pagePath} -> ${next[item.pagePath]}`);
     }
   }
