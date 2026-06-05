@@ -14,7 +14,7 @@
 - **Optional no-JS comments** — show a per-post Nostalgic BBS image that opens the interactive posting page only when clicked
 - **Syntax-highlighted code** — build-time highlighting with inline styles (no JS, no extra request)
 - **Automatic dark mode** — follows `prefers-color-scheme` with CSS only; set `dark_mode = false` to stay always-light
-- **Content organization** — tags, a year-grouped archive, and tag-based related posts
+- **Content organization** — tags, a year-grouped archive, tag-based related posts, and prev/next post navigation
 - **Custom 404 page and favicon** (favicon overridable via config)
 - **Lazy-loaded content images**, eager LCP image with `fetchpriority`
 - **Fully customizable** via `config.toml` — defaults recreate the Abe look, every knob is overridable, no HTML/CSS editing needed
@@ -117,6 +117,8 @@ content/
 ```
 
 The top page pulls the latest posts directly via `get_section()` in `index.html`, so no `transparent` flag is needed on `posts/_index.md`.
+
+Prev/next post links at the bottom of each post follow the section's `sort_by` order. `sort_by = "date"` is recommended: without `sort_by` the links are not rendered, and with `weight` the left/right direction no longer means older/newer.
 
 ## Nostalgic BBS comments
 
