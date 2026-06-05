@@ -127,14 +127,7 @@ nostalgic_bbs = true
 nostalgic_bbs_limit = 3
 ```
 
-For a manually managed post, set its public BBS id in front matter:
-
-```toml
-[extra]
-nostalgic_bbs_id = "your-bbs-id"
-```
-
-For automatic per-post provisioning, set `NOSTALGIC_TOKEN` in the build environment and run:
+For per-post provisioning, set `NOSTALGIC_TOKEN` in the build environment and run:
 
 ```bash
 npm run sync:nostalgic-bbs
@@ -147,18 +140,18 @@ Cloudflare Pages can use:
 npm run sync:nostalgic-bbs && zola build
 ```
 
-The sync script writes `data/nostalgic_bbs.toml`, keyed by Zola `page.path`.
+The sync script looks up or creates one BBS per final post URL (`base_url` + `page.path`) and writes the returned public ids to `data/nostalgic_bbs.toml`, keyed by Zola `page.path`.
 
 ```toml
 [posts]
 "/posts/my-post/" = "my-post-bbs-id"
 ```
 
-Existing ids in this file are reused, so repeated builds do not call Nostalgic for every article. New posts are looked up/created by their final permalink URL with the token kept in the build environment. If `NOSTALGIC_TOKEN` is not set, the script leaves the existing mapping untouched and skips missing posts, so ordinary theme builds still work.
+Existing ids in this generated mapping are reused, so repeated builds do not call Nostalgic for every article. New posts are looked up/created by their final permalink URL with the token kept in the build environment. If `NOSTALGIC_TOKEN` is not set, the script leaves the existing mapping untouched and skips missing posts, so ordinary theme builds still work.
 
-The generated `data/nostalgic_bbs.toml` may be committed for stable local builds, or generated only in the deployment environment. In either case, never put `NOSTALGIC_TOKEN` in front matter, templates, or generated HTML.
+The generated `data/nostalgic_bbs.toml` may be committed for stable local builds, or generated only in the deployment environment. In either case, never put `NOSTALGIC_TOKEN` in front matter, templates, or generated HTML. If you need to pin an existing BBS manually, edit this mapping file rather than individual post Markdown.
 
-Nostalgic BBS does not yet expose `batchGet`. Once it does, the script is structured to use safe 50-item chunks to stay under D1's 100-bind limit.
+Nostalgic BBS does not yet expose `batchLookup`. Once it does, the script is structured to use safe 50-item chunks to stay under D1's 100-bind limit.
 
 ## Tags
 
