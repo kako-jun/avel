@@ -197,20 +197,26 @@ export NOSTALGIC_TOKEN=your-token-here
 
 For Cloudflare Pages or other CI environments, add `NOSTALGIC_TOKEN` as an environment variable in the project settings.
 
-### Step 3 — Add three keys to `config.toml`
+If `NOSTALGIC_TOKEN` is not set, the script keeps any existing BBS ids intact and exits without creating new entries. Posts that already have a BBS id will continue to show their comment section; only new posts without an id are skipped.
+
+### Step 3 — Add settings to `config.toml`
+
+Only `nostalgic_bbs = true` is required. The other four keys are optional — the template snippet provides defaults for all of them.
 
 ```toml
 [extra]
 nostalgic_bbs = true
-nostalgic_bbs_limit = 3          # number of recent comments shown in the image
-nostalgic_bbs_width = 760        # pixel width used when generating the SVG image
-nostalgic_bbs_label = "Comments" # heading text above the image
-nostalgic_bbs_hint = "Click to comment" # caption text below the image
+nostalgic_bbs_limit = 3          # number of recent comments shown in the image (optional, default 3)
+nostalgic_bbs_width = 760        # pixel width used when generating the SVG image (optional, default 760)
+nostalgic_bbs_label = "Comments" # heading text above the image (optional, default "Comments")
+nostalgic_bbs_hint = "Click to comment" # caption text below the image (optional, default "Click to comment")
 ```
 
 ### Step 4 — Add the snippet to your `templates/page.html`
 
-Override your theme's page template by creating `templates/page.html` in your site root (Zola looks there before the theme directory). Copy this snippet and place it where you want the comment section to appear — typically after the article body:
+Override your theme's page template by creating `templates/page.html` in your site root (Zola looks there before the theme directory). Copy this snippet and place it where you want the comment section to appear — typically after the article body.
+
+> This is the minimal paste-in fragment. avel's own `templates/page.html` is the full version with CSS classes and additional markup. If you want the comment section to match avel's styling, refer to that file instead.
 
 ```html
 {% if config.extra.nostalgic_bbs | default(value=false) %}
