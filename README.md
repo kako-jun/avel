@@ -140,7 +140,7 @@ Cloudflare Pages can use:
 npm run sync:nostalgic-bbs && zola build
 ```
 
-The sync script looks up or creates one BBS per final post URL (`base_url` + `page.path`) and writes the returned public ids to `data/nostalgic_bbs.toml`, keyed by Zola `page.path`.
+The sync script looks up or creates one BBS per final post URL (`base_url` + article path) and writes the returned public ids to `data/nostalgic_bbs.toml`, keyed by the article URL path.
 
 ```toml
 [posts]

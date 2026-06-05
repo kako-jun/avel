@@ -80,8 +80,8 @@ date_format = "%Y年%m月%d日"
 share = true                      # 記事末尾に X・はてな のシェアリンクを表示
 
 # --- Nostalgic BBS コメント欄（JSなし画像。クリック先で投稿）---
-# nostalgic_bbs = false            # true にすると記事末尾に Nostalgic BBS 画像を表示
-# nostalgic_bbs_limit = 3          # 画像に表示する最新コメント数
+nostalgic_bbs = true               # true にすると記事末尾に Nostalgic BBS 画像を表示
+nostalgic_bbs_limit = 3            # 画像に表示する最新コメント数
 
 # --- フッター ---
 # footer = "© Your Name"

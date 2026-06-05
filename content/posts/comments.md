@@ -23,7 +23,7 @@ npm run sync:nostalgic-bbs
 zola build
 ```
 
-同期スクリプトは `base_url` と `page.path` から記事の最終 URL を作り、Nostalgic BBS を検索または作成します。返ってきた公開 ID は `data/nostalgic_bbs.toml` に保存されます。このファイルは Zola の `page.path` をキーにした生成マップです。
+同期スクリプトは `base_url` と記事パスから記事の最終 URL を作り、Nostalgic BBS を検索または作成します。返ってきた公開 ID は `data/nostalgic_bbs.toml` に保存されます。このファイルは記事の URL path をキーにした生成マップです。
 
 ```toml
 [posts]
