@@ -95,7 +95,8 @@ All defaults recreate the Abe Hiroshi look. Uncomment any line to override it.
 # footer = "© Your Name"
 
 # --- SEO / OGP (canonical, Open Graph, Twitter Card, and JSON-LD are emitted by default) ---
-# og_image = "og.webp"            # OGP/Twitter card image, place in static/ (output as an absolute URL)
+# og_image = "ogp.png"            # OGP/Twitter card image, place in static/ (output as an absolute URL)
+# og_image_alt = "My site"        # alt text for social card images
 # twitter = "@yourhandle"         # twitter:site handle for Twitter Cards
 
 # --- Navigation ---

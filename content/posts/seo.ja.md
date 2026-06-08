@@ -14,8 +14,9 @@ SNS で共有されたときのカード画像を指定したい場合は `og_im
 
 ```toml
 [extra]
-og_image = "og.webp"        # static/ に置く
+og_image = "ogp.png"        # static/ に置く
+og_image_alt = "My site"
 twitter = "@yourhandle"
 ```
 
-`og_image` を設定すると、Twitter Card は大きな画像つきのレイアウトになります。設定しなくても、テキスト中心のカードとして共有されます。
+`og_image` を設定すると、Twitter Card は大きな画像つきのレイアウトになります。画像の alt は `og_image_alt` で指定できます。省略した場合は現在のページタイトルが使われます。設定しなくても、テキスト中心のカードとして共有されます。

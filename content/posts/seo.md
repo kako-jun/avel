@@ -14,9 +14,9 @@ Set `og_image` for social cards and `twitter` for the source account.
 
 ```toml
 [extra]
-og_image = "og.webp"
+og_image = "ogp.png"
+og_image_alt = "My site"
 twitter = "@yourhandle"
 ```
 
-Without `og_image`, shared cards remain text-focused.
-
+Without `og_image`, shared cards remain text-focused. When `og_image` is set, avel also emits image alt text. If `og_image_alt` is omitted, the current page title is used.

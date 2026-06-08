@@ -127,7 +127,8 @@ nostalgic_bbs_width = 760
 # footer = "© Your Name"
 
 # --- SEO / OGP ---
-# og_image = "og.webp"
+og_image = "ogp.png"
+og_image_alt = "avel - ultra-lightweight no-JS Zola blog theme"
 # twitter = "@yourhandle"
 # favicon = "favicon.svg"
 
