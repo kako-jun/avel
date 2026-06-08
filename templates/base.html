@@ -47,6 +47,7 @@
 <link rel="alternate" type="application/atom+xml" title="{{ config.title }}" href="{{ get_url(path='atom.xml', lang=lang) }}">
 {% if page and page.translations %}{% for t in page.translations %}<link rel="alternate" hreflang="{{ t.lang }}" href="{{ t.permalink }}">{% endfor %}{% endif %}
 {% if section and section.translations %}{% for t in section.translations %}<link rel="alternate" hreflang="{{ t.lang }}" href="{{ t.permalink }}">{% endfor %}{% endif %}
+{% if term %}<link rel="alternate" hreflang="{{ config.default_language }}" href="{{ get_taxonomy_url(kind='tags', name=term.name, lang=config.default_language) }}"><link rel="alternate" hreflang="ja" href="{{ get_taxonomy_url(kind='tags', name=term.name, lang='ja') }}">{% endif %}
 {% if page and page.date %}
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":{{ seo_title | json_encode | safe }}{% if current_url %},"url":{{ current_url | json_encode | safe }},"mainEntityOfPage":{{ current_url | json_encode | safe }}{% endif %}{% if page.date %},"datePublished":"{{ page.date }}"{% endif %}{% if page.updated %},"dateModified":"{{ page.updated }}"{% endif %}{% if config.extra.name %},"author":{"@type":"Person","name":{{ config.extra.name | json_encode | safe }}}{% endif %}{% if seo_desc %},"description":{{ seo_desc | json_encode | safe }}{% endif %}}</script>
 {% else %}
