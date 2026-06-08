@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ lang }}">
+{% set show_language_switch = config.extra.language_switch | default(value=false) %}
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -47,7 +48,7 @@
 <link rel="alternate" type="application/atom+xml" title="{{ config.title }}" href="{{ get_url(path='atom.xml', lang=lang) }}">
 {% if page and page.translations %}{% for t in page.translations %}<link rel="alternate" hreflang="{{ t.lang }}" href="{{ t.permalink }}">{% endfor %}{% endif %}
 {% if section and section.translations %}{% for t in section.translations %}<link rel="alternate" hreflang="{{ t.lang }}" href="{{ t.permalink }}">{% endfor %}{% endif %}
-{% if term %}<link rel="alternate" hreflang="{{ config.default_language }}" href="{{ get_taxonomy_url(kind='tags', name=term.name, lang=config.default_language) }}"><link rel="alternate" hreflang="ja" href="{{ get_taxonomy_url(kind='tags', name=term.name, lang='ja') }}">{% endif %}
+{% if show_language_switch and term %}<link rel="alternate" hreflang="{{ config.default_language }}" href="{{ get_taxonomy_url(kind='tags', name=term.name, lang=config.default_language) }}"><link rel="alternate" hreflang="ja" href="{{ get_taxonomy_url(kind='tags', name=term.name, lang='ja') }}">{% endif %}
 {% if page and page.date %}
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":{{ seo_title | json_encode | safe }}{% if current_url %},"url":{{ current_url | json_encode | safe }},"mainEntityOfPage":{{ current_url | json_encode | safe }}{% endif %}{% if page.date %},"datePublished":"{{ page.date }}"{% endif %}{% if page.updated %},"dateModified":"{{ page.updated }}"{% endif %}{% if config.extra.name %},"author":{"@type":"Person","name":{{ config.extra.name | json_encode | safe }}}{% endif %}{% if seo_desc %},"description":{{ seo_desc | json_encode | safe }}{% endif %}}</script>
 {% else %}
@@ -163,28 +164,32 @@ main img{max-width:100%;height:auto}
   <li>{% if bullet_glyph %}<span class="bullet" style="color:{{ bullet_palette[b4] }}">{{ bullet_glyph }}</span>{% endif %}<a href="https://github.com/kako-jun/avel" target="_blank" rel="noopener noreferrer">GitHub</a></li>
 {% endif %}
 </ul>
-{% set_global en_url = get_url(path='/', lang=config.default_language) %}
-{% set_global ja_url = get_url(path='/', lang='ja') %}
-{% if page and page.translations %}
-  {% for t in page.translations %}
-    {% if t.lang == config.default_language %}{% set_global en_url = t.permalink %}{% endif %}
-    {% if t.lang == "ja" %}{% set_global ja_url = t.permalink %}{% endif %}
-  {% endfor %}
-{% elif section and section.translations %}
-  {% for t in section.translations %}
-    {% if t.lang == config.default_language %}{% set_global en_url = t.permalink %}{% endif %}
-    {% if t.lang == "ja" %}{% set_global ja_url = t.permalink %}{% endif %}
-  {% endfor %}
-{% elif term %}
-  {% set_global en_url = get_taxonomy_url(kind="tags", name=term.name, lang=config.default_language) %}
-  {% set_global ja_url = get_taxonomy_url(kind="tags", name=term.name, lang="ja") %}
+{% if show_language_switch %}
+  {% set_global en_url = get_url(path='/', lang=config.default_language) %}
+  {% set_global ja_url = get_url(path='/', lang='ja') %}
+  {% if page and page.translations %}
+    {% for t in page.translations %}
+      {% if t.lang == config.default_language %}{% set_global en_url = t.permalink %}{% endif %}
+      {% if t.lang == "ja" %}{% set_global ja_url = t.permalink %}{% endif %}
+    {% endfor %}
+  {% elif section and section.translations %}
+    {% for t in section.translations %}
+      {% if t.lang == config.default_language %}{% set_global en_url = t.permalink %}{% endif %}
+      {% if t.lang == "ja" %}{% set_global ja_url = t.permalink %}{% endif %}
+    {% endfor %}
+  {% elif term %}
+    {% set_global en_url = get_taxonomy_url(kind="tags", name=term.name, lang=config.default_language) %}
+    {% set_global ja_url = get_taxonomy_url(kind="tags", name=term.name, lang="ja") %}
+  {% endif %}
 {% endif %}
 <div class="nav-meta">
   <a href="{{ get_url(path='atom.xml', lang=lang) }}">{{ trans(key="atom", lang=lang) }}</a>
+  {% if show_language_switch %}
   <span class="lang-switch">
     {% if lang == config.default_language %}<strong>English</strong>{% else %}<a href="{{ en_url }}">English</a>{% endif %}
     {% if lang == "ja" %}<strong>日本語</strong>{% else %}<a href="{{ ja_url }}">日本語</a>{% endif %}
   </span>
+  {% endif %}
 </div>
 </nav>
 <main>{% block content %}{% endblock content %}</main>

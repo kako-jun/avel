@@ -31,6 +31,9 @@ taxonomies = [
 [languages.ja.translations]
 home = "トップ"
 posts = "記事一覧"
+
+[extra]
+language_switch = true
 ```
 
 既定言語の taxonomy はトップレベルに置きます。

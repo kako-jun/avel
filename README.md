@@ -120,7 +120,7 @@ content/
   archive.ja.md          # Japanese year-grouped archive
 ```
 
-avel uses Zola's static multilingual support. English is the default language, so English files use the plain slug and Japanese translations use `.ja.md`. The generated URLs are `/posts/my-post/` and `/ja/posts/my-post/`. The theme does not use JavaScript or browser language detection; it renders static language links.
+avel uses Zola's static multilingual support. English is the default language, so English files use the plain slug and Japanese translations use `.ja.md`. The generated URLs are `/posts/my-post/` and `/ja/posts/my-post/`. The theme does not use JavaScript or browser language detection; it renders static language links when `extra.language_switch = true` is set.
 
 The top page pulls the latest posts directly via `get_section(path="posts/_index.md", lang=lang)` in `index.html`, so each language shows only its own posts and no `transparent` flag is needed on `posts/_index.md`.
 

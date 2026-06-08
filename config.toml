@@ -97,6 +97,7 @@ background_image = "bg.svg"
 # content_align = "left"
 # title_align = "center"
 # line_height = "1.5"
+language_switch = true
 
 # --- Font ---
 # font = "sans-serif"
