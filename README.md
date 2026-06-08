@@ -231,7 +231,7 @@ Override your theme's page template by creating `templates/page.html` in your si
 {% set nostalgic_bbs = load_data(path="data/nostalgic_bbs.toml", required=false) %}
 {% if nostalgic_bbs and nostalgic_bbs.posts %}
   {% for post_path, post_bbs_id in nostalgic_bbs.posts %}
-    {% if post_path == current_path %}
+    {% if post_path == page.path %}
       {% set_global nostalgic_bbs_public_id = post_bbs_id %}
     {% endif %}
   {% endfor %}
