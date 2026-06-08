@@ -1,23 +1,24 @@
 +++
-title = "背景画像の設定"
+title = "Background Image"
 date = 2025-07-10
 
 [taxonomies]
 tags = ["configuration"]
 +++
 
-このサイトの背景は、SVG ファイルをタイル状に並べたものです。`static/` に置いた画像ファイルを指定すると、小さい画像は自動的にタイル表示されます。
+The demo background is a tiled SVG file. Put an image in `static/` and point `background_image` at it.
 
 ```toml
 [extra]
 background_image = "bg.svg"
 ```
 
-## 背景色のみ
+## Solid background
 
-画像を使わず、単色の背景にすることもできます。
+You can also skip the image and use a plain color.
 
 ```toml
 [extra]
 body_bg = "#fffff0"
 ```
+

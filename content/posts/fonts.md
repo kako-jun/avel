@@ -1,14 +1,14 @@
 +++
-title = "フォントの変更"
+title = "Changing Fonts"
 date = 2025-07-01
 
 [taxonomies]
 tags = ["configuration"]
 +++
 
-既定のフォントは `sans-serif`（ゴシック体）です。阿部寛のホームページが CSS を持たず、多くのブラウザの既定フォント（日本語ではゴシック体）で表示されるのに倣っています。明朝体にしたい場合や、別の書体を使いたい場合は `config.toml` で変更できます。
+The default font is `sans-serif`. This follows Hiroshi Abe's homepage: because it has almost no styling, browsers show their own default fonts.
 
-## システムフォント
+## System fonts
 
 ```toml
 [extra]
@@ -17,7 +17,7 @@ font_family = "Georgia"
 font_size = "14px"
 ```
 
-システムにある書体だけを使えば、外部へのリクエストは発生しません。表示の速さを優先するなら、この方法がおすすめです。
+System fonts add no external requests, so they keep the site fast.
 
 ## Google Fonts
 
@@ -28,4 +28,5 @@ font_family = "Noto Serif JP"
 font = "serif"
 ```
 
-この場合は、初回だけ Google のサーバーへリクエストが発生します。読み込みのぶん表示は遅くなりますので、必要なときだけ使うとよいでしょう。
+This adds a request to Google's servers on first load. Use it only when the font is worth the cost.
+

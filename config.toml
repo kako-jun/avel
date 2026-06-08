@@ -1,7 +1,7 @@
 base_url = "https://avel.llll-ll.com"
-title = "avel のホームページ"
-description = "とにかく表示が速い、no-JS の Zola ブログテーマ（阿部寛のホームページへのリスペクト）"
-default_language = "ja"
+title = "avel homepage (sample)"
+description = "An ultra-lightweight, no-JS Zola blog theme inspired by Hiroshi Abe's famously lightweight official homepage."
+default_language = "en"
 compile_sass = false
 generate_feeds = true
 feed_filenames = ["atom.xml"]
@@ -9,96 +9,132 @@ minify_html = true
 
 [markdown]
 lazy_async_image = true
-external_links_target_blank = true   # 本文中の外部リンクを別タブで開く（rel=noopener も付与）
+external_links_target_blank = true
 
 [markdown.highlighting]
 enabled = true
-theme = "Nord"   # コードは両モードとも濃色で統一。このZolaフォークのインライン方式では light/dark 自動切替が機能しないため（dark_theme は出力に反映されなかった）
+theme = "Nord"
 
 [[taxonomies]]
 name = "tags"
 url = "tags"
 feed = false
-lang = "ja"
+
+[translations]
+home = "Home"
+posts = "Posts"
+archive = "Archive"
+tags = "Tags"
+latest_news = "Latest News"
+more_posts = "More posts"
+contact = "Contact"
+atom = "Atom"
+related_posts = "Related posts"
+previous = "Previous"
+next = "Next"
+share_hatena = "Hatena Bookmark"
+comments = "Comments"
+comment_hint = "Click to comment"
+language = "Language"
+profile_text = "A sample site for the avel Zola theme."
+date_format = "%B %d, %Y"
+
+[languages.ja]
+title = "avel のホームページ（サンプル）"
+description = "とにかく表示が速い、no-JS の Zola ブログテーマ（阿部寛のホームページへのリスペクト）"
+generate_feeds = true
+taxonomies = [
+  { name = "tags", url = "tags", feed = false },
+]
+
+[languages.ja.translations]
+home = "トップ"
+posts = "記事一覧"
+archive = "アーカイブ"
+tags = "タグ一覧"
+latest_news = "最新情報"
+more_posts = "記事一覧をもっと見る"
+contact = "連絡先"
+atom = "Atom"
+related_posts = "関連記事"
+previous = "前の記事"
+next = "次の記事"
+share_hatena = "はてなブックマーク"
+comments = "Comments"
+comment_hint = "クリックで書き込めます"
+language = "言語"
+profile_text = "Zola テーマ avel のサンプルサイトです。"
+date_format = "%Y年%m月%d日"
 
 [extra]
-# 既定値は「阿部寛のホームページ」を再現する設定。
-# どれもコメントを外せば上書きできる（カスタマイズ用のノブ）。
+# Defaults recreate the feel of Hiroshi Abe's famously lightweight homepage.
+# Uncomment any option in your own site config to override it.
 
-# --- プロフィール（本家と同じくトップページ本文の中央に表示。サイドバーには出さない）---
+# --- Profile ---
 name = "Ave L"
 profile_image = "avatar.webp"
 profile_width = "200"
 profile_height = "200"
-profile_text = "Zola でブログを書いています。"   # 名前の下に出る短い紹介文（任意）
 
-# 連絡先＝SNS アカウント一覧（アバターの下に表示。阿部寛サイトの「連絡先」欄に相当）
 social = [
   { label = "X", url = "https://x.com/kako_jun_42" },
   { label = "Instagram", url = "https://instagram.com/kako_jun_42" },
   { label = "GitHub", url = "https://github.com/kako-jun" },
 ]
 
-# --- 背景 ---
+# --- Background ---
 background_image = "bg.svg"
-# background_image_dark = "bg-dark.svg"   # ダークモード時の背景（既定: bg-dark.svg。明地ウォーターマークは暗背景で潰れるため別画像に切替）
-# body_bg = "#ffffff"             # 背景画像なしのときの背景色
+# background_image_dark = "bg-dark.svg"
+# body_bg = "#ffffff"
 
-# --- レイアウト ---
-# nav_width = "18%"               # サイドバー幅（デフォルト: 18%。本家も cols=18,82）
-# nav_bg = "#f0f0ff"              # サイドバー背景色（デフォルト: #f0f0ff 淡い薄紫）
-# nav_border = true               # サイドバー右の境界線（デフォルト: 表示。フレーム枠の名残）
-# nav_item_gap = "1.3em"          # ナビ項目の上下間隔（デフォルト: 1.3em。本家のゆったりした間隔に合わせた）
-# nav_bullet = "●"                # ナビ項目の先頭記号（デフォルト: ● 。"" で消す）
-# nav_bullet_colors = ["#ffcccc","#00ff00","#33ffff","#0099ff","#0000ff","#333399","#cc00cc"]  # ● を項目ごとに循環着色（デフォルト: 本家7色）
-# main_padding = "1em"            # メインエリアの余白
-# max_width = "960px"             # ページ全体の最大幅
-# content_align = "left"         # 本文の文字揃え: left / center / justify
-# title_align = "center"          # ページタイトル(h1)の文字揃え（デフォルト: center）
-# line_height = "1.5"            # 行間（デフォルト: 1.5）
+# --- Layout ---
+# nav_width = "18%"
+# nav_bg = "#f0f0ff"
+# nav_border = true
+# nav_item_gap = "1.3em"
+# nav_bullet = "●"
+# nav_bullet_colors = ["#ffcccc","#00ff00","#33ffff","#0099ff","#0000ff","#333399","#cc00cc"]
+# main_padding = "1em"
+# max_width = "960px"
+# content_align = "left"
+# title_align = "center"
+# line_height = "1.5"
 
-# --- フォント ---
-# font = "sans-serif"             # serif / sans-serif / monospace（デフォルト: sans-serif=ゴシック。本家は CSS なしでブラウザ既定=ゴシック表示）
-# font_family = ""                # 具体的な書体名（システムフォントのみなら外部読み込みなし）
-# google_fonts_url = ""           # Google Fonts の URL
-# font_size = "16px"              # ベースフォントサイズ（デフォルト: 16px=ブラウザ既定）
+# --- Font ---
+# font = "sans-serif"
+# font_family = ""
+# google_fonts_url = ""
+# font_size = "16px"
 
-# --- 文字色・リンク色 ---
-# text_color = "#000000"          # 本文の文字色（デフォルト: 黒）
-# link_color = "#0000ee"          # リンクの色（デフォルト: ブラウザ既定の青）
-# link_visited = "#551a8b"        # 訪問済みリンクの色
+# --- Colors ---
+# text_color = "#000000"
+# link_color = "#0000ee"
+# link_visited = "#551a8b"
 
-# --- 日付 ---
-date_format = "%Y年%m月%d日"
+# --- Speed ---
+# view_transitions = true
+# speculation_rules = true
+# dark_mode = true
 
-# --- 高速化（モダン機能・既定 ON。看板は「とにかく表示が速い」）---
-# view_transitions = true         # ページ遷移を CSS でなめらかフェード（@view-transition、JS 不要）
-# speculation_rules = true        # 内部リンクをホバー時に prerender し体感 0ms 遷移（宣言的 script 1個。外部/atom.xml は除外）
-# dark_mode = true                # OS のダーク設定に追従（prefers-color-scheme、CSS のみ・JS 不要）。false で常にライト（本家どおり）
+# --- Sharing ---
+share = true
 
-# --- シェアボタン ---
-share = true                      # 記事末尾に X・はてな のシェアリンクを表示
+# --- Nostalgic BBS comments ---
+nostalgic_bbs = true
+nostalgic_bbs_limit = 3
+nostalgic_bbs_width = 760
 
-# --- Nostalgic BBS コメント欄（JSなし画像。クリック先で投稿）---
-nostalgic_bbs = true               # true にすると記事末尾に Nostalgic BBS 画像を表示
-nostalgic_bbs_limit = 3            # 画像に表示する最新コメント数
-nostalgic_bbs_width = 760          # SVG内の描画幅。CSSで画面幅に縮むため横スクロールは出ない
-nostalgic_bbs_label = "Comments"
-nostalgic_bbs_hint = "クリックで書き込めます"
-
-# --- フッター ---
+# --- Footer ---
 # footer = "© Your Name"
 
-# --- SEO / OGP（canonical・Open Graph・Twitter Card・JSON-LD は既定で出力）---
-# og_image = "og.webp"            # OGP/Twitter のカード画像。static/ に置く（絶対URLで出力）
-# twitter = "@yourhandle"         # X（旧Twitter）のカードの発信元。メタ名は今も twitter:site のまま
-# favicon = "favicon.svg"         # ファビコン。static/ に置く（既定は同梱の favicon.svg）
+# --- SEO / OGP ---
+# og_image = "og.webp"
+# twitter = "@yourhandle"
+# favicon = "favicon.svg"
 
-# --- ナビゲーション ---
-nav = [
-  { label = "トップ", url = "/" },
-  { label = "記事一覧", url = "/posts/" },
-  { label = "アーカイブ", url = "/archive/" },
-  { label = "タグ一覧", url = "/tags/" },
-  { label = "GitHub", url = "https://github.com/kako-jun/avel" },
-]
+# --- Navigation ---
+# If omitted, avel renders language-aware Home / Posts / Archive / Tags / GitHub links.
+# nav = [
+#   { label = "Home", url = "/" },
+#   { label = "Posts", url = "/posts/" },
+# ]

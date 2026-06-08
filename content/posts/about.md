@@ -1,22 +1,23 @@
 +++
-title = "avel とは"
+title = "What is avel?"
 date = 2025-06-01
 
 [taxonomies]
 tags = ["about"]
 +++
 
-avel は、[阿部寛のホームページ](http://abehiroshi.la.coocan.jp/) にインスパイアされた、ランタイム JavaScript ゼロの [Zola](https://www.getzola.org/) テーマです。何よりも「表示が速いこと」を大切にしています。
+avel is a runtime-JavaScript-free [Zola](https://www.getzola.org/) theme inspired by [Hiroshi Abe's famously lightweight official homepage](http://abehiroshi.la.coocan.jp/). It cares about one thing before everything else: pages should appear immediately.
 
-特徴は次のとおりです。
+It is built around a few simple ideas.
 
-- ランタイム JavaScript なし（速くするための宣言的な仕組みだけは使います）
-- 外部リソースなし（既定設定。Web フォントも CDN も読み込みません）
-- CSS はインラインなので、別ファイルの取得を待ちません
-- スタイルは `config.toml` だけで調整でき、HTML や CSS を編集する必要はありません
+- No runtime JavaScript
+- No external resources by default
+- Inline CSS, so the browser does not wait for a separate stylesheet
+- Theme knobs live in `config.toml`, so you do not need to edit HTML or CSS
 
-## なぜ軽さにこだわるのか
+## Why lightness matters
 
-軽いページは速く表示され、壊れにくく、長く保ちやすいものです。トラッキングスクリプトを置かないので読む人のプライバシーにも配慮できますし、外部リソースに頼らないので CDN の不調にも左右されにくくなります。
+Light pages load quickly, break less often, and age better. They also avoid tracking scripts and are less dependent on CDNs or third-party services.
 
-阿部寛のホームページが長く変わらずに公開され続けているのは、シンプルだからだと思います。avel もその姿勢を受け継いでいます。
+Hiroshi Abe's homepage has stayed online for years because it is simple. avel borrows that attitude and turns it into a reusable Zola theme.
+

@@ -1,2 +1,27 @@
 {% import "macros.html" as macros %}
-{% extends "base.html" %}{% block content %}<h1 class="home-title">{{ config.title }}</h1><div class="home"><div class="home-profile">{% if config.extra.profile_image %}<img src="/{{ config.extra.profile_image }}" width="{{ config.extra.profile_width | default(value='200') }}" height="{{ config.extra.profile_height | default(value='200') }}" alt="{{ config.extra.name | default(value='') }}" decoding="async" fetchpriority="high">{% endif %}{% if config.extra.name %}<p class="home-name"><strong>{{ config.extra.name }}</strong></p>{% endif %}{% if config.extra.profile_text %}<p>{{ config.extra.profile_text }}</p>{% endif %}{% if config.extra.social %}<div class="contact"><p class="contact-head">連絡先</p><ul>{% for s in config.extra.social %}<li><a href="{{ s.url }}"{% if s.url is starting_with("http") %} target="_blank" rel="noopener noreferrer"{% endif %}>{{ s.label }}</a></li>{% endfor %}</ul></div>{% endif %}</div><div class="home-news"><p class="news-head">★★★　最新情報　★★★</p>{% set posts = get_section(path="posts/_index.md") %}{% if posts.pages %}{{ macros::post_list(pages=posts.pages | slice(end=5)) }}{% if posts.pages | length > 5 %}<p class="more"><a href="/posts/">記事一覧をもっと見る →</a></p>{% endif %}{% endif %}</div></div>{% endblock content %}
+{% extends "base.html" %}
+{% block content %}
+<h1 class="home-title">{{ config.title }}</h1>
+<div class="home">
+  <div class="home-profile">
+    {% if config.extra.profile_image %}<img src="/{{ config.extra.profile_image }}" width="{{ config.extra.profile_width | default(value='200') }}" height="{{ config.extra.profile_height | default(value='200') }}" alt="{{ config.extra.name | default(value='') }}" decoding="async" fetchpriority="high">{% endif %}
+    {% if config.extra.name %}<p class="home-name"><strong>{{ config.extra.name }}</strong></p>{% endif %}
+    <p>{{ config.extra.profile_text | default(value=trans(key="profile_text", lang=lang)) }}</p>
+    {% if config.extra.social %}
+    <div class="contact">
+      <p class="contact-head">{{ trans(key="contact", lang=lang) }}</p>
+      <ul>{% for s in config.extra.social %}<li><a href="{{ s.url }}"{% if s.url is starting_with("http") %} target="_blank" rel="noopener noreferrer"{% endif %}>{{ s.label }}</a></li>{% endfor %}</ul>
+    </div>
+    {% endif %}
+  </div>
+  <div class="home-news">
+    <p class="news-head">★★★ {{ trans(key="latest_news", lang=lang) }} ★★★</p>
+    {% set posts = get_section(path="posts/_index.md", lang=lang) %}
+    {% if posts.pages %}
+      {{ macros::post_list(pages=posts.pages | slice(end=5)) }}
+      {% if lang == config.default_language %}{% set posts_url = "/posts/" %}{% else %}{% set posts_url = "/" ~ lang ~ "/posts/" %}{% endif %}
+      {% if posts.pages | length > 5 %}<p class="more"><a href="{{ posts_url }}">{{ trans(key="more_posts", lang=lang) }} →</a></p>{% endif %}
+    {% endif %}
+  </div>
+</div>
+{% endblock content %}
