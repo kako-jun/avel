@@ -64,8 +64,8 @@ nav li{display:flex;align-items:baseline;margin:{{ config.extra.nav_item_gap | d
 nav a{color:{{ config.extra.nav_link_color | default(value="#0000ee") }};text-decoration:underline}
 nav a:visited{color:{{ config.extra.nav_link_color | default(value="#0000ee") }}}
 .bullet{flex-shrink:0;margin-right:.3em}
-.nav-meta{margin-top:auto;padding-top:.5em;font-size:.9em;display:flex;gap:.65em;align-items:baseline;white-space:nowrap}
-.lang-switch{display:inline-flex;gap:.5em}
+.nav-meta{margin-top:auto;padding-top:.5em;font-size:.9em;line-height:1.2;display:flex;gap:.65em;align-items:center;white-space:nowrap}
+.lang-switch{display:inline-flex;gap:.5em;align-items:center}
 main{flex:1;padding:{{ config.extra.main_padding | default(value="1em") }};text-align:{{ config.extra.content_align | default(value="left") }};line-height:{{ config.extra.line_height | default(value="1.5") }}}
 main a{color:{{ config.extra.link_color | default(value="#0000ee") }};text-decoration:underline}
 main a:visited{color:{{ config.extra.link_visited | default(value="#551a8b") }}}
