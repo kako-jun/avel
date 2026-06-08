@@ -177,6 +177,9 @@ main img{max-width:100%;height:auto}
     {% if t.lang == config.default_language %}{% set_global en_url = t.permalink %}{% endif %}
     {% if t.lang == "ja" %}{% set_global ja_url = t.permalink %}{% endif %}
   {% endfor %}
+{% elif term %}
+  {% set_global en_url = get_taxonomy_url(kind="tags", name=term.name, lang=config.default_language) %}
+  {% set_global ja_url = get_taxonomy_url(kind="tags", name=term.name, lang="ja") %}
 {% endif %}
 <div class="lang-switch">
   <span>{{ trans(key="language", lang=lang) }}:</span>

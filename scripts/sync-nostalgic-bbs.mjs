@@ -31,7 +31,7 @@ async function walkMarkdown(dir) {
     const fullPath = path.join(dir, entry.name);
     if (entry.isDirectory()) {
       files.push(...(await walkMarkdown(fullPath)));
-    } else if (entry.isFile() && entry.name.endsWith(".md") && entry.name !== "_index.md") {
+    } else if (entry.isFile() && entry.name.endsWith(".md") && !/^_index(\.[^.]+)?\.md$/.test(entry.name)) {
       files.push(fullPath);
     }
   }
@@ -44,17 +44,39 @@ function extractFrontmatter(source) {
   return end === -1 ? "" : source.slice(4, end);
 }
 
-function pagePathForFile(file, frontmatter) {
+function readLanguageCodes(configToml) {
+  const codes = new Set();
+  for (const match of configToml.matchAll(/^\[languages\.([A-Za-z0-9_-]+)\]/gm)) {
+    codes.add(match[1]);
+  }
+  return codes;
+}
+
+function splitLanguageSuffix(rel, languageCodes) {
+  const parts = rel.split("/");
+  const basename = parts[parts.length - 1];
+  const dot = basename.lastIndexOf(".");
+  if (dot === -1) return { rel, lang: "" };
+
+  const suffix = basename.slice(dot + 1);
+  if (!languageCodes.has(suffix)) return { rel, lang: "" };
+
+  parts[parts.length - 1] = basename.slice(0, dot);
+  return { rel: parts.join("/"), lang: suffix };
+}
+
+function pagePathForFile(file, frontmatter, languageCodes) {
   const explicitPath = parseScalar(frontmatter, "path");
   if (explicitPath) return normalizePath(explicitPath);
 
-  const rel = path.relative("content", file).replace(/\\/g, "/").replace(/\.md$/, "");
+  const rawRel = path.relative("content", file).replace(/\\/g, "/").replace(/\.md$/, "");
+  const { rel, lang } = splitLanguageSuffix(rawRel, languageCodes);
   const slug = parseScalar(frontmatter, "slug");
-  if (!slug) return normalizePath(rel);
+  if (!slug) return normalizePath(lang ? `${lang}/${rel}` : rel);
 
   const parts = rel.split("/");
   parts[parts.length - 1] = slug;
-  return normalizePath(parts.join("/"));
+  return normalizePath(lang ? `${lang}/${parts.join("/")}` : parts.join("/"));
 }
 
 function readBaseUrl(configToml) {
@@ -127,6 +149,7 @@ async function batchLookupBbs(items) {
 async function main() {
   const configToml = await readFile("config.toml", "utf8");
   const baseUrl = readBaseUrl(configToml);
+  const languageCodes = readLanguageCodes(configToml);
   const existing = await readExistingMap();
   const next = { ...existing };
   const files = existsSync(CONTENT_DIR) ? await walkMarkdown(CONTENT_DIR) : [];
@@ -136,7 +159,7 @@ async function main() {
     const source = await readFile(file, "utf8");
     const frontmatter = extractFrontmatter(source);
     if (!frontmatter || parseBool(frontmatter, "draft")) continue;
-    const pagePath = pagePathForFile(file, frontmatter);
+    const pagePath = pagePathForFile(file, frontmatter, languageCodes);
     if (next[pagePath]) continue;
     missing.push({ pagePath, url: `${baseUrl}${pagePath}` });
   }

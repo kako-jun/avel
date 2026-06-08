@@ -264,14 +264,18 @@ The comment display is a static `<img>` tag pointing to a Nostalgic API endpoint
 
 ## Tags
 
-Add `[[taxonomies]]` to `config.toml`:
+Add a taxonomy to `config.toml`:
 
 ```toml
 [[taxonomies]]
 name = "tags"
 url = "tags"
 feed = false
-lang = "en"
+
+[languages.ja]
+taxonomies = [
+  { name = "tags", url = "tags", feed = false },
+]
 ```
 
 Then add tags to your posts:
@@ -286,7 +290,7 @@ tags = ["foo", "bar"]
 +++
 ```
 
-Tag pages are generated at `/tags/` and `/tags/{name}/`.
+Tag pages are generated at `/tags/` and `/tags/{name}/`. In multilingual sites, translated tag pages are generated under the language path, such as `/ja/tags/` and `/ja/tags/{name}/`.
 
 ## Theme gallery
 
