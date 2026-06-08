@@ -1,37 +1,38 @@
 +++
-title = "ナビゲーションのカスタマイズ"
+title = "Customizing Navigation"
 date = 2025-06-15
 
 [taxonomies]
 tags = ["configuration"]
 +++
 
-サイドバーのリンクは `config.extra.nav` で定義します。
+Sidebar links can be defined with `config.extra.nav`.
 
 ```toml
 [extra]
 nav = [
-  { label = "トップ", url = "/" },
-  { label = "記事一覧", url = "/posts/" },
-  { label = "タグ一覧", url = "/tags/" },
+  { label = "Home", url = "/" },
+  { label = "Posts", url = "/posts/" },
+  { label = "Tags", url = "/tags/" },
   { label = "GitHub", url = "https://github.com/yourname" },
 ]
 ```
 
-`nav` を設定しない場合は、既定のナビ（トップ・記事一覧）が表示されます。
+If `nav` is omitted, avel renders language-aware default links.
 
-## 箇条書き記号
+## Bullets
 
-既定では「●」が、項目ごとに色を変えて表示されます。阿部寛のホームページの 7 色のメニューに倣った配色です。記号や配色を変えたい場合、また記号を消したい場合は次のように指定します。
+By default, each item has a colored `●`, following the seven-color menu feel of Hiroshi Abe's homepage.
 
 ```toml
 [extra]
-nav_bullet = "●"          # 記号を変える。"" を指定すると消える
+nav_bullet = "●"
 nav_bullet_colors = ["#ffcccc", "#00ff00", "#33ffff", "#0099ff", "#0000ff", "#333399", "#cc00cc"]
 ```
 
-記号の色は、リストの先頭から順に、指定した色を 1 つずつ使い、色を使い切ると最初に戻って循環します。
+Colors cycle from the first item onward.
 
-## 前後記事ナビ
+## Previous and next posts
 
-記事ページの下部には、前後の記事へのリンクが表示されます。左が過去の記事、右が未来の記事で、セクションの `sort_by = "date"` の順に並びます。スマホ幅（600px 以下）では縦積みになります。
+Post pages show previous and next links at the bottom, using the section's `sort_by` order.
+

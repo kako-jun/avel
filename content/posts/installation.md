@@ -1,25 +1,25 @@
 +++
-title = "インストール方法"
+title = "Installation"
 date = 2025-06-05
 
 [taxonomies]
 tags = ["installation"]
 +++
 
-git submodule として追加します。
+Add avel as a git submodule.
 
 ```bash
 cd your-zola-site
 git submodule add https://github.com/kako-jun/avel themes/avel
 ```
 
-`config.toml` にテーマを指定します。
+Set the theme in `config.toml`.
 
 ```toml
 theme = "avel"
 ```
 
-`content/posts/_index.md` を作成します。
+Create `content/posts/_index.md`.
 
 ```toml
 +++
@@ -29,4 +29,5 @@ paginate_by = 20
 +++
 ```
 
-あとは `zola serve` で確認すれば完了です。
+Run `zola serve` and check the site.
+

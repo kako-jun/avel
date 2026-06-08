@@ -2,7 +2,7 @@
 
 <p><img src="static/lighthouse.webp" alt="Lighthouse 100 / 100 / 100 / 100" width="453"></p>
 
-**The fastest-rendering [Zola](https://www.getzola.org/) blog theme.** A homage to the legendary [Abe Hiroshi's homepage](http://abehiroshi.la.coocan.jp/) — the page that renders before you blink — rebuilt as a modern, responsive, fully customizable theme.
+**The fastest-rendering [Zola](https://www.getzola.org/) blog theme.** A homage to [Hiroshi Abe's famously lightweight official homepage](http://abehiroshi.la.coocan.jp/) — the page that renders before you blink — rebuilt as a modern, responsive, fully customizable theme.
 
 - **Instant display** — pure HTML streamed top-to-bottom; the first characters paint immediately, nothing waits on a wrapper to finish loading
 - **Instant navigation** — internal links are prerendered on hover (Speculation Rules) and cross-faded with CSS View Transitions; clicking feels like ~0ms
@@ -109,14 +109,20 @@ All defaults recreate the Abe Hiroshi look. Uncomment any line to override it.
 
 ```
 content/
-  _index.md              # top page (template = "index.html")
+  _index.md              # English top page (template = "index.html")
+  _index.ja.md           # Japanese top page, served under /ja/
   posts/
-    _index.md            # posts section (sort_by = "date", paginate_by = 20)
-    my-post.md           # a post
-  archive.md             # year-grouped archive (template = "archive.html", weight = 1)
+    _index.md            # English posts section
+    _index.ja.md         # Japanese posts section
+    my-post.md           # English post
+    my-post.ja.md        # Japanese translation with the same slug
+  archive.md             # English year-grouped archive
+  archive.ja.md          # Japanese year-grouped archive
 ```
 
-The top page pulls the latest posts directly via `get_section()` in `index.html`, so no `transparent` flag is needed on `posts/_index.md`.
+avel uses Zola's static multilingual support. English is the default language, so English files use the plain slug and Japanese translations use `.ja.md`. The generated URLs are `/posts/my-post/` and `/ja/posts/my-post/`. The theme does not use JavaScript or browser language detection; it renders static language links.
+
+The top page pulls the latest posts directly via `get_section(path="posts/_index.md", lang=lang)` in `index.html`, so each language shows only its own posts and no `transparent` flag is needed on `posts/_index.md`.
 
 Prev/next post links at the bottom of each post follow the section's `sort_by` order. `sort_by = "date"` is recommended: without `sort_by` the links are not rendered, and with `weight` the left/right direction no longer means older/newer.
 
@@ -258,14 +264,18 @@ The comment display is a static `<img>` tag pointing to a Nostalgic API endpoint
 
 ## Tags
 
-Add `[[taxonomies]]` to `config.toml`:
+Add a taxonomy to `config.toml`:
 
 ```toml
 [[taxonomies]]
 name = "tags"
 url = "tags"
 feed = false
-lang = "en"
+
+[languages.ja]
+taxonomies = [
+  { name = "tags", url = "tags", feed = false },
+]
 ```
 
 Then add tags to your posts:
@@ -280,7 +290,7 @@ tags = ["foo", "bar"]
 +++
 ```
 
-Tag pages are generated at `/tags/` and `/tags/{name}/`.
+Tag pages are generated at `/tags/` and `/tags/{name}/`. In multilingual sites, translated tag pages are generated under the language path, such as `/ja/tags/` and `/ja/tags/{name}/`.
 
 ## Theme gallery
 

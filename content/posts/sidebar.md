@@ -1,21 +1,22 @@
 +++
-title = "サイドバーのカスタマイズ"
+title = "Customizing the Sidebar"
 date = 2025-06-20
 
 [taxonomies]
 tags = ["configuration"]
 +++
 
-左側のサイドバーは、幅・背景色・境界線・項目の間隔を `config.toml` だけで調整できます。既定値は阿部寛のホームページに倣い、薄紫（`#f0f0ff`）の背景に幅 18% としています。
+The left sidebar can be adjusted from `config.toml`: width, background color, border, and item spacing.
 
 ```toml
 [extra]
-nav_width = "18%"        # サイドバーの幅
-nav_bg = "#f0f0ff"       # 背景色
-nav_border = true        # 右側の境界線（フレーム枠の名残）
-nav_item_gap = "1.3em"   # 項目どうしの上下の間隔
+nav_width = "18%"
+nav_bg = "#f0f0ff"
+nav_border = true
+nav_item_gap = "1.3em"
 ```
 
-リンクの追加や、箇条書き記号「●」の色の変更については、[ナビゲーションのカスタマイズ](/posts/navigation/)をご覧ください。
+The defaults follow Hiroshi Abe's homepage: a pale lavender background and an 18% sidebar.
 
-スマートフォンなどの狭い画面では、サイドバーは自動的に上部の横並びメニューに切り替わります。こちらの設定は必要ありません。
+On narrow screens, the sidebar automatically becomes a top horizontal menu.
+

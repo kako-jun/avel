@@ -1,42 +1,42 @@
 +++
-title = "Markdown ショーケース"
+title = "Markdown Showcase"
 date = 2026-05-10
 
 [taxonomies]
 tags = ["showcase", "demo"]
 +++
 
-このページはテーマの表示確認用サンプルです。
+This page checks basic Markdown rendering.
 
-## 見出し
+## Headings
 
-### h3 見出し
+### h3 heading
 
-#### h4 見出し
+#### h4 heading
 
-## テキスト
+## Text
 
-通常のテキストです。**太字**、*イタリック*、~~取り消し線~~、`インラインコード` が使えます。
+Normal text, **bold**, *italic*, ~~strikethrough~~, and `inline code`.
 
-## リスト
+## Lists
 
-- りんご
-- みかん
-- ぶどう
-  - 巨峰
-  - マスカット
+- apple
+- orange
+- grape
+  - Kyoho
+  - Muscat
 
-番号付きリスト：
+Numbered list:
 
-1. 第一に
-2. 第二に
-3. 第三に
+1. First
+2. Second
+3. Third
 
-## 引用
+## Quote
 
-> 吾輩は猫である。名前はまだない。
+> The web should remain readable.
 
-## コードブロック
+## Code blocks
 
 ```rust
 fn main() {
@@ -50,17 +50,14 @@ name = "avel demo"
 font = "serif"
 ```
 
-## 表
+## Table
 
-| テーマ | 実行 JS | CSS | 特徴 |
+| Theme | Runtime JS | CSS | Note |
 |---|---|---|---|
-| avel | なし | 最小限 | 阿部寛風 |
-| その他 | 多め | 重め | 普通 |
+| avel | none | minimal | Hiroshi Abe-inspired |
+| others | often | heavier | typical |
 
-## 水平線
+## Horizontal rule
 
 ---
 
-## リンク
-
-[GitHub](https://github.com/kako-jun/avel)

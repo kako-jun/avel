@@ -1,15 +1,16 @@
 +++
-title = "avel の趣旨"
+title = "The Idea Behind avel"
 date = 2025-11-15
 
 [taxonomies]
 tags = ["about"]
 +++
 
-Web は少しずつ複雑になってきました。ページを開くたびに多くの外部スクリプトが走り、フレームワークが初期化され、読み込みを待たされることも少なくありません。ブログを読むだけなのに、なぜこれほど重いのかと感じることがあります。
+The web has become heavier little by little. Many pages run external scripts, initialize frameworks, and make readers wait before a simple article appears.
 
-avel は、その問いへのひとつの答えです。書いたことが伝われば十分で、過剰な演出やリアルタイム更新がなくても、テキストと最低限の構造と読みやすいフォントがあればブログは成り立ちます。
+avel is one answer to that problem. A blog does not need much to work: text, a little structure, and readable links are often enough.
 
-Zola は Rust 製の静的サイトジェネレーターです。ビルドが速く、依存関係も少なく、生成される HTML もシンプルです。avel はその Zola の上に、余計なものを重ねない方向で作っています。
+Zola is a static site generator written in Rust. It builds quickly and outputs simple HTML. avel keeps that simplicity instead of adding a large frontend layer on top.
 
-ただし「何も足さない」ことだけを目的にはしていません。ランタイムの JavaScript は足しませんが、表示を速く感じてもらうために、ブラウザ標準の宣言的な仕組み（CSS の View Transitions やリンクの先読み）は取り入れています。重さを増やさずに速さだけを足す、という引き算と足し算の両立を目指しています。
+This does not mean "never add anything." avel avoids runtime JavaScript, but it does use browser-native declarative features such as CSS View Transitions and Speculation Rules when they improve perceived speed without adding application code.
+

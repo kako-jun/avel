@@ -1,21 +1,22 @@
 +++
-title = "SEO の設定"
+title = "SEO Settings"
 date = 2025-05-22
 
 [taxonomies]
 tags = ["configuration"]
 +++
 
-avel は、検索エンジンや SNS に内容が正しく伝わるよう、いくつかのメタ情報を既定で出力します。canonical URL、Open Graph、Twitter Card、JSON-LD（構造化データ）、サイトマップ、フィードの自動検出が、設定なしで有効です。いずれも `<head>` 内のテキストなので、表示の速さには影響しません。
+avel emits several metadata fields by default: canonical URL, Open Graph, Twitter Card, JSON-LD structured data, sitemap, and feed autodiscovery. They live in `<head>` and do not affect rendering speed.
 
-なお Twitter Card という呼び名と `twitter:` で始まるメタ名は、X（旧 Twitter）になった今もそのまま使われています。`x:` のような名前は無いので、これが正しい指定です。
+The `twitter:` metadata names are still correct even after Twitter became X. There is no `x:` replacement.
 
-SNS で共有されたときのカード画像を指定したい場合は `og_image` を、カードの発信元アカウントを示したい場合は `twitter` を設定します。
+Set `og_image` for social cards and `twitter` for the source account.
 
 ```toml
 [extra]
-og_image = "og.webp"        # static/ に置く
+og_image = "og.webp"
 twitter = "@yourhandle"
 ```
 
-`og_image` を設定すると、Twitter Card は大きな画像つきのレイアウトになります。設定しなくても、テキスト中心のカードとして共有されます。
+Without `og_image`, shared cards remain text-focused.
+

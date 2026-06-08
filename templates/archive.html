@@ -1,1 +1,17 @@
-{% extends "base.html" %}{% block title %}アーカイブ | {{ config.title }}{% endblock title %}{% block content %}<h1>アーカイブ</h1>{% set section = get_section(path="posts/_index.md") %}{% set_global cur_year = 0 %}{% for page in section.pages %}{% if page.year != cur_year %}{% if not loop.first %}</ul>{% endif %}<h2 class="archive-year">{{ page.year }}</h2><ul>{% set_global cur_year = page.year %}{% endif %}<li class="ple"><a href="{{ page.permalink }}">{{ page.title }}</a> <small>{{ page.date | date(format=config.extra.date_format | default(value="%Y年%m月%d日")) }}</small></li>{% if loop.last %}</ul>{% endif %}{% endfor %}{% endblock content %}
+{% extends "base.html" %}
+{% block title %}{{ page.title }} | {{ config.title }}{% endblock title %}
+{% block content %}
+<h1>{{ page.title }}</h1>
+{% set section = get_section(path="posts/_index.md", lang=lang) %}
+{% set_global cur_year = 0 %}
+{% for page in section.pages %}
+  {% if page.year != cur_year %}
+    {% if not loop.first %}</ul>{% endif %}
+    <h2 class="archive-year">{{ page.year }}</h2>
+    <ul>
+    {% set_global cur_year = page.year %}
+  {% endif %}
+  <li class="ple"><a href="{{ page.permalink }}">{{ page.title }}</a> <small>{{ page.date | date(format=trans(key="date_format", lang=lang)) }}</small></li>
+  {% if loop.last %}</ul>{% endif %}
+{% endfor %}
+{% endblock content %}

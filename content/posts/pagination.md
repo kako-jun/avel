@@ -1,12 +1,12 @@
 +++
-title = "ページネーションの設定"
+title = "Pagination"
 date = 2025-08-15
 
 [taxonomies]
 tags = ["configuration"]
 +++
 
-`content/posts/_index.md` に `paginate_by` を追加します。
+Add `paginate_by` to `content/posts/_index.md`.
 
 ```toml
 +++
@@ -16,6 +16,7 @@ paginate_by = 20
 +++
 ```
 
-ページが複数になると、記事一覧の下にページ番号と前後の矢印が表示されます。
+When there are multiple pages, avel shows page numbers and previous/next arrows below the post list.
 
-トップ（`/`）には最新 5 件だけが並びます。記事一覧（`/posts/`）は、ページネーション付きですべての記事を表示します。
+The homepage shows only the latest five posts. `/posts/` shows all posts with pagination.
+
