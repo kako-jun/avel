@@ -20,7 +20,6 @@ default_language = "en"
 [translations]
 home = "Home"
 posts = "Posts"
-language = "Language"
 
 [languages.ja]
 title = "avel のホームページ（サンプル）"
@@ -32,7 +31,6 @@ taxonomies = [
 [languages.ja.translations]
 home = "トップ"
 posts = "記事一覧"
-language = "言語"
 ```
 
 Keep the default-language taxonomy at the top level.
@@ -94,4 +92,3 @@ content/posts/respect.ja.md
 ```
 
 The visible title can still be fully translated.
-

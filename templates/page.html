@@ -6,19 +6,6 @@
 {% if page.taxonomies.tags %}<p class="tags">{% for tag in page.taxonomies.tags %}<a href="{{ get_taxonomy_url(kind='tags', name=tag, lang=lang) }}">#{{ tag }}</a>{% endfor %}</p>{% endif %}
 {{ page.content | safe }}
 <hr>
-{% if page.translations %}
-  {% set_global en_url = page.permalink %}
-  {% set_global ja_url = page.permalink %}
-  {% for t in page.translations %}
-    {% if t.lang == config.default_language %}{% set_global en_url = t.permalink %}{% endif %}
-    {% if t.lang == "ja" %}{% set_global ja_url = t.permalink %}{% endif %}
-  {% endfor %}
-  <p class="lang-switch">
-    {{ trans(key="language", lang=lang) }}:
-    {% if lang == config.default_language %}<strong>English</strong>{% else %}<a href="{{ en_url }}">English</a>{% endif %}
-    {% if lang == "ja" %}<strong>日本語</strong>{% else %}<a href="{{ ja_url }}">日本語</a>{% endif %}
-  </p>
-{% endif %}
 {% if config.extra.share %}
 <div class="share">
   <a href="https://x.com/intent/tweet?url={{ page.permalink | urlencode }}&text={{ page.title | urlencode }}" target="_blank" rel="noopener noreferrer">X</a>

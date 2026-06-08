@@ -20,7 +20,6 @@ default_language = "en"
 [translations]
 home = "Home"
 posts = "Posts"
-language = "Language"
 
 [languages.ja]
 title = "avel のホームページ（サンプル）"
@@ -32,7 +31,6 @@ taxonomies = [
 [languages.ja.translations]
 home = "トップ"
 posts = "記事一覧"
-language = "言語"
 ```
 
 既定言語の taxonomy はトップレベルに置きます。
