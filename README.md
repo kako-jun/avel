@@ -97,6 +97,9 @@ All defaults recreate the Abe Hiroshi look. Uncomment any line to override it.
 # --- SEO / OGP (canonical, Open Graph, Twitter Card, and JSON-LD are emitted by default) ---
 # og_image = "ogp.png"            # OGP/Twitter card image, place in static/ (output as an absolute URL)
 # og_image_alt = "My site"        # alt text for social card images
+# og_image_type = "image/png"     # optional, helps social crawlers classify the image
+# og_image_width = "1200"         # optional, recommended for stable social previews
+# og_image_height = "630"         # optional, recommended for stable social previews
 # twitter = "@yourhandle"         # twitter:site handle for Twitter Cards
 
 # --- Navigation ---

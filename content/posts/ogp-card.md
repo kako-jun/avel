@@ -18,9 +18,12 @@ Place an image in `static/`, then point `extra.og_image` at it.
 [extra]
 og_image = "ogp.png"
 og_image_alt = "My site"
+og_image_type = "image/png"
+og_image_width = "1200"
+og_image_height = "630"
 ```
 
-When `og_image` is set, avel emits `og:image`, `twitter:image`, and a large Twitter Card. When `og_image_alt` is set, it is used for both Open Graph and Twitter image alt text. If the alt text is omitted, the current page title is used.
+When `og_image` is set, avel emits `og:image`, `og:image:secure_url`, `twitter:image`, and a large Twitter Card. When `og_image_alt` is set, it is used for both Open Graph and Twitter image alt text. If the alt text is omitted, the current page title is used. The `og_image_type`, `og_image_width`, and `og_image_height` keys are optional, but they help social crawlers render image previews consistently.
 
 ## Image Size
 

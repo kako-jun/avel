@@ -129,6 +129,9 @@ nostalgic_bbs_width = 760
 # --- SEO / OGP ---
 og_image = "ogp.png"
 og_image_alt = "avel - ultra-lightweight no-JS Zola blog theme"
+og_image_type = "image/png"
+og_image_width = "1200"
+og_image_height = "630"
 # twitter = "@yourhandle"
 # favicon = "favicon.svg"
 

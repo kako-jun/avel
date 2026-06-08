@@ -40,7 +40,18 @@
 {% if seo_desc %}<meta property="og:description" content="{{ seo_desc }}">{% endif %}
 {% if page and page.date %}<meta property="article:published_time" content="{{ page.date }}">{% endif %}
 {% if page and page.updated %}<meta property="article:modified_time" content="{{ page.updated }}">{% endif %}
-{% if config.extra.og_image %}{% set og_image_alt = config.extra.og_image_alt | default(value=seo_title) %}<meta property="og:image" content="{{ get_url(path=config.extra.og_image) }}"><meta property="og:image:alt" content="{{ og_image_alt }}"><meta name="twitter:image" content="{{ get_url(path=config.extra.og_image) }}"><meta name="twitter:image:alt" content="{{ og_image_alt }}">{% endif %}
+{% if config.extra.og_image %}
+{% set og_image_url = get_url(path=config.extra.og_image) %}
+{% set og_image_alt = config.extra.og_image_alt | default(value=seo_title) %}
+<meta property="og:image" content="{{ og_image_url }}">
+<meta property="og:image:secure_url" content="{{ og_image_url }}">
+{% if config.extra.og_image_type %}<meta property="og:image:type" content="{{ config.extra.og_image_type }}">{% endif %}
+{% if config.extra.og_image_width %}<meta property="og:image:width" content="{{ config.extra.og_image_width }}">{% endif %}
+{% if config.extra.og_image_height %}<meta property="og:image:height" content="{{ config.extra.og_image_height }}">{% endif %}
+<meta property="og:image:alt" content="{{ og_image_alt }}">
+<meta name="twitter:image" content="{{ og_image_url }}">
+<meta name="twitter:image:alt" content="{{ og_image_alt }}">
+{% endif %}
 <meta name="twitter:card" content="{% if config.extra.og_image %}summary_large_image{% else %}summary{% endif %}">
 <meta name="twitter:title" content="{{ seo_title }}">
 {% if seo_desc %}<meta name="twitter:description" content="{{ seo_desc }}">{% endif %}
@@ -116,9 +127,11 @@ footer{padding:.5em;text-align:center;font-size:.85em}
 @media(max-width:600px){
   body{flex-direction:column}
   nav{width:100%;min-width:unset;border-right:none;border-bottom:2px solid #c0c0c0;flex-direction:row;flex-wrap:wrap;align-items:center;padding:.3em .5em}
-  nav ul{display:flex;flex-wrap:wrap;gap:.2em .8em;width:100%;flex-basis:100%}
-  nav li{margin:0}
-  .nav-meta{margin-top:.2em;padding-top:0;margin-left:auto;align-self:center}
+  nav ul{display:flex;flex-wrap:wrap;gap:.25em .6em;width:100%;flex-basis:100%}
+  nav li{margin:0;align-items:center}
+  nav a{display:inline-flex;align-items:center;min-height:44px;padding:0 .25em}
+  .nav-meta{margin-top:.2em;padding-top:0;margin-left:auto;align-self:center;min-height:44px}
+  .nav-meta a,.lang-switch a{min-height:44px}
   .home{flex-direction:column;align-items:stretch}
   .home-profile{width:auto;margin:1em 0}
   .post-nav{flex-direction:column;gap:.4em}
