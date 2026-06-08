@@ -294,7 +294,7 @@ Tag pages are generated at `/tags/` and `/tags/{name}/`. In multilingual sites, 
 
 ## Theme gallery
 
-This theme is listed on [getzola.org/themes](https://www.getzola.org/themes/).
+This theme is being submitted to [getzola.org/themes](https://www.getzola.org/themes/).
 GitHub topic: [`zola-theme`](https://github.com/topics/zola-theme)
 
 ## License

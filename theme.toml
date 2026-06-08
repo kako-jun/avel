@@ -3,7 +3,9 @@ description = "An ultra-lightweight, no-JS Zola blog theme inspired by Hiroshi A
 license = "MIT"
 homepage = "https://github.com/kako-jun/avel"
 min_version = "0.19.0"
-author_name = "kako-jun"
-author_homepage = "https://llll-ll.com"
 demo = "https://avel.llll-ll.com"
 tags = ["blog", "minimal", "no-js"]
+
+[author]
+name = "kako-jun"
+homepage = "https://llll-ll.com"
