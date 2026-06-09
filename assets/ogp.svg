@@ -1,0 +1,16 @@
+<!-- Source for static/ogp.png (1200x630 OGP card). Mirrors favicon.svg (italic serif "a" + underline). -->
+<!-- Regenerate: rsvg-convert -w 1200 -h 630 assets/ogp.svg -o static/ogp.png -->
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#ffffff"/>
+  <!-- left nav-like panel -->
+  <rect width="440" height="630" fill="#f0f0ff"/>
+  <rect x="438" y="0" width="2" height="630" fill="silver"/>
+  <!-- icon: italic serif blue "a" + underline (matches favicon) -->
+  <text x="220" y="400" text-anchor="middle" font-family="Noto Serif, Georgia, 'Times New Roman', serif" font-style="italic" font-size="300" fill="#0000ee">a</text>
+  <rect x="130" y="432" width="180" height="16" rx="8" fill="#0000ee"/>
+  <!-- right: wordmark + tagline -->
+  <text x="515" y="285" font-family="Noto Serif, Georgia, 'Times New Roman', serif" font-style="italic" font-size="130" fill="#111111">avel</text>
+  <text x="517" y="362" font-family="Noto Sans, sans-serif" font-size="42" font-weight="700" fill="#333333">ultra-lightweight Zola theme</text>
+  <text x="517" y="410" font-family="Noto Sans, sans-serif" font-size="30" fill="#666666">no runtime JavaScript / instant navigation</text>
+  <text x="517" y="487" font-family="Noto Sans, sans-serif" font-size="38" font-weight="700" fill="#0000ee">avel.llll-ll.com</text>
+</svg>
