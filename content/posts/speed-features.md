@@ -14,7 +14,7 @@ Pages can cross-fade with CSS only. No JavaScript is used. This is **off by defa
 
 ```toml
 [extra]
-view_transitions = true   # off by default
+view_transitions = true   # opt-in; off by default
 ```
 
 ## Speculation Rules

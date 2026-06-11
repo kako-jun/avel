@@ -12,5 +12,5 @@ avel is one answer to that problem. A blog does not need much to work: text, a l
 
 Zola is a static site generator written in Rust. It builds quickly and outputs simple HTML. avel keeps that simplicity instead of adding a large frontend layer on top.
 
-This does not mean "never add anything." avel avoids runtime JavaScript, but it does use browser-native declarative features such as CSS View Transitions and Speculation Rules when they improve perceived speed without adding application code.
+This does not mean "never add anything." avel avoids runtime JavaScript, but it does use browser-native declarative features such as Speculation Rules (link prerendering) when they improve perceived speed without adding application code. CSS View Transitions are available too, but off by default — they can flash on dark themes during navigation.
 
