@@ -111,7 +111,7 @@ language_switch = true
 # link_visited = "#551a8b"
 
 # --- Speed ---
-# view_transitions = true
+# view_transitions = false   # off by default: cross-document fade can flash on dark themes during navigation
 # speculation_rules = true
 # dark_mode = true
 

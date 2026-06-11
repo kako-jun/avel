@@ -77,8 +77,8 @@ All defaults recreate the Abe Hiroshi look. Uncomment any line to override it.
 # link_color = "#0000ee"          # default: browser-default blue
 # link_visited = "#551a8b"
 
-# --- Speed (modern, on by default — keeps Lighthouse 100) ---
-# view_transitions = true         # CSS cross-document fade between pages (no JS)
+# --- Speed (modern, keeps Lighthouse 100) ---
+# view_transitions = false        # off by default: cross-document CSS fade can flash on dark themes mid-navigation; set true to opt in (no JS)
 # speculation_rules = true        # prerender internal links on hover for ~0ms navigation (one declarative <script>; external links and /atom.xml excluded)
 
 # --- Date ---
