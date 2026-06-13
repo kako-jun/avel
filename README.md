@@ -182,7 +182,7 @@ When provisioning hundreds of posts, the script paces creates and retries `429`/
 
 The generated `data/nostalgic_bbs.toml` may be committed for stable local builds, or generated only in the deployment environment. In either case, never put `NOSTALGIC_TOKEN` in front matter, templates, or generated HTML. If you need to pin an existing BBS manually, edit this mapping file rather than individual post Markdown.
 
-`batchLookup` accepts up to 1000 URLs per request. Nostalgic handles any lower-level D1 query chunking internally, so avel does not split requests just to satisfy SQLite bind limits.
+Nostalgic handles any lower-level D1 query chunking internally, so splitting requests to satisfy SQLite bind limits is unnecessary. This script still chunks lookups into `NOSTALGIC_LOOKUP_LIMIT` (default `50`) URLs per `batchLookup` — not for bind limits, but to pace requests and checkpoint progress, writing `data/nostalgic_bbs.toml` after each chunk so an interrupted run resumes without re-creating BBS entries.
 
 ## Using the auto comment section with any Zola theme
 

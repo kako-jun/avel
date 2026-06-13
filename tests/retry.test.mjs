@@ -233,6 +233,23 @@ test("createBbs: 400 throws non-retryable", async () => {
   );
 });
 
+test("createBbs: 429 with success+id returns the id (no retry — prevents duplicate create)", async () => {
+  // A gateway can stamp 429 onto a response that already created the BBS. The
+  // usable result must win over the retryable status, or a retry would create a
+  // second, duplicate BBS for the same URL.
+  const id = await createBbs("https://x/a/", {
+    fetchImpl: fakeFetch({ ok: false, status: 429, body: { success: true, id: "x" } }),
+  });
+  assert.equal(id, "x");
+});
+
+test("createBbs: 503 with success+id returns the id (no retry — prevents duplicate create)", async () => {
+  const id = await createBbs("https://x/a/", {
+    fetchImpl: fakeFetch({ ok: false, status: 503, body: { success: true, id: "y" } }),
+  });
+  assert.equal(id, "y");
+});
+
 // --- batchLookupBbs -----------------------------------------------------------
 
 test("batchLookupBbs: 200 with success+data array returns data", async () => {
@@ -280,6 +297,14 @@ test("batchLookupBbs: success:false throws non-retryable", async () => {
       batchLookupBbs([{ url: "https://x/a/" }], { fetchImpl: fakeFetch({ status: 200, body: { success: false } }) }),
     (e) => e instanceof Error && e.retryable === undefined
   );
+});
+
+test("batchLookupBbs: 429 with success+data array returns data (no retry — consistent with createBbs)", async () => {
+  const data = [{ url: "https://x/a/", exists: false }];
+  const out = await batchLookupBbs([{ url: "https://x/a/" }], {
+    fetchImpl: fakeFetch({ ok: false, status: 429, body: { success: true, data } }),
+  });
+  assert.deepEqual(out, data);
 });
 
 // --- postJson (network exception handling) ------------------------------------

@@ -217,6 +217,10 @@ export async function createBbs(url, { fetchImpl = globalThis.fetch } = {}) {
     },
     { fetchImpl }
   );
+  // A usable result (success + id) is returned regardless of HTTP status: a
+  // gateway can stamp 429/503 onto a response that already created the BBS, and
+  // discarding its id here would make a retry create a duplicate BBS.
+  if (created.json?.success && created.json?.id) return created.json.id;
   if (isRetryableStatus(created.status) || created.networkError) {
     const error = new Error(`BBS create temporarily failed for ${url}: ${created.status}`);
     error.retryable = true;
@@ -237,6 +241,9 @@ export async function batchLookupBbs(items, { fetchImpl = globalThis.fetch } = {
     },
     { fetchImpl }
   );
+  // Mirror createBbs: a usable result (success + data array) is returned ahead
+  // of the retryable check. Lookups are idempotent so this is just consistency.
+  if (lookup.json?.success && Array.isArray(lookup.json?.data)) return lookup.json.data;
   if (isRetryableStatus(lookup.status) || lookup.networkError) {
     const error = new Error(`BBS batchLookup temporarily failed: ${lookup.status}`);
     error.retryable = true;
