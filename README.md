@@ -167,6 +167,19 @@ The sync script looks up or creates one BBS per final post URL (`base_url` + art
 
 Existing ids in this generated mapping are reused, so repeated builds do not call Nostalgic for every article. New posts are looked up with Nostalgic BBS `batchLookup` by their final permalink URL, then only missing BBS entries are created. If `NOSTALGIC_TOKEN` is not set, the script leaves the existing mapping untouched and skips missing posts, so ordinary theme builds still work.
 
+### Large batches (200+ posts)
+
+The sync script is built to provision many BBS entries in one run. These optional environment variables tune its behavior:
+
+| Variable | Default | Description |
+|---|---|---|
+| `NOSTALGIC_LOOKUP_LIMIT` | `50` | URLs resolved per `batchLookup` request (also the chunk size). |
+| `NOSTALGIC_CREATE_DELAY_MS` | `1200` | Delay in ms applied after each create, to pace requests. Set `0` to disable pacing. |
+| `NOSTALGIC_RETRY_BASE_MS` | `2000` | Base for the linear backoff on retryable failures (429/503/network). Minimum `500`. |
+| `NOSTALGIC_MAX_RETRIES` | `5` | Maximum retry attempts per request. |
+
+When provisioning hundreds of posts, the script paces creates and retries `429`/`503` responses and network exceptions with a linear backoff, so a busy API or a brief network hiccup does not abort the whole run. It also writes `data/nostalgic_bbs.toml` incrementally and atomically — after every successful create and at the end of each chunk, via a temp file plus rename — so if the run is interrupted partway, the ids created so far are preserved and a re-run resumes without re-creating them.
+
 The generated `data/nostalgic_bbs.toml` may be committed for stable local builds, or generated only in the deployment environment. In either case, never put `NOSTALGIC_TOKEN` in front matter, templates, or generated HTML. If you need to pin an existing BBS manually, edit this mapping file rather than individual post Markdown.
 
 `batchLookup` accepts up to 1000 URLs per request. Nostalgic handles any lower-level D1 query chunking internally, so avel does not split requests just to satisfy SQLite bind limits.
