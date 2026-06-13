@@ -1,27 +1,54 @@
-import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
+import { mkdir, readFile, readdir, writeFile, rename } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import path from "node:path";
+import { pathToFileURL } from "node:url";
 
 const DEFAULT_CONTENT_DIR = "content/posts";
 const DATA_FILE = "data/nostalgic_bbs.toml";
 const DEFAULT_API_BASE = "https://api.nostalgic.llll-ll.com";
-const BATCH_LOOKUP_LIMIT = 1000;
 
-const token = process.env.NOSTALGIC_TOKEN || "";
-const apiBase = (process.env.NOSTALGIC_API_BASE || DEFAULT_API_BASE).replace(/\/$/, "");
-const CONTENT_DIR = process.env.NOSTALGIC_CONTENT_DIR || DEFAULT_CONTENT_DIR;
+const DEFAULT_LOOKUP_LIMIT = 50;
+const DEFAULT_CREATE_DELAY_MS = 1200;
+const DEFAULT_RETRY_BASE_MS = 2000;
+const MIN_RETRY_BASE_MS = 500;
+const DEFAULT_MAX_RETRIES = 5;
 
-function normalizePath(value) {
+const env = process.env;
+
+const token = env.NOSTALGIC_TOKEN || "";
+const apiBase = (env.NOSTALGIC_API_BASE || DEFAULT_API_BASE).replace(/\/$/, "");
+const CONTENT_DIR = env.NOSTALGIC_CONTENT_DIR || DEFAULT_CONTENT_DIR;
+
+// Number of URLs resolved per batchLookup request (also the chunk size).
+const rawLookupLimit = Number(env.NOSTALGIC_LOOKUP_LIMIT || DEFAULT_LOOKUP_LIMIT);
+const LOOKUP_LIMIT = Number.isFinite(rawLookupLimit) && rawLookupLimit >= 1 ? rawLookupLimit : DEFAULT_LOOKUP_LIMIT;
+
+// Pacing delay applied after each successful create. 0 disables pacing.
+const rawCreateDelay = Number(env.NOSTALGIC_CREATE_DELAY_MS ?? DEFAULT_CREATE_DELAY_MS);
+const createDelayMs = Number.isFinite(rawCreateDelay) && rawCreateDelay >= 0 ? rawCreateDelay : DEFAULT_CREATE_DELAY_MS;
+
+// Base for linear backoff on retryable failures (429/503/network). Floored so
+// that a user-supplied 0 cannot disable backoff entirely.
+const retryBaseMs = Math.max(Number(env.NOSTALGIC_RETRY_BASE_MS || DEFAULT_RETRY_BASE_MS), MIN_RETRY_BASE_MS);
+
+const rawMaxRetries = Number(env.NOSTALGIC_MAX_RETRIES || DEFAULT_MAX_RETRIES);
+const MAX_RETRIES = Number.isFinite(rawMaxRetries) && rawMaxRetries >= 1 ? rawMaxRetries : DEFAULT_MAX_RETRIES;
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+export function normalizePath(value) {
   const trimmed = value.trim().replace(/^\/+|\/+$/g, "");
   return `/${trimmed}/`;
 }
 
-function parseScalar(frontmatter, key) {
+export function parseScalar(frontmatter, key) {
   const match = frontmatter.match(new RegExp(`^${key}\\s*=\\s*["']?([^"'\\n]+)["']?\\s*$`, "m"));
   return match ? match[1].trim() : "";
 }
 
-function parseBool(frontmatter, key) {
+export function parseBool(frontmatter, key) {
   return new RegExp(`^${key}\\s*=\\s*true\\s*$`, "m").test(frontmatter);
 }
 
@@ -38,13 +65,13 @@ async function walkMarkdown(dir) {
   return files;
 }
 
-function extractFrontmatter(source) {
+export function extractFrontmatter(source) {
   if (!source.startsWith("+++\n")) return "";
   const end = source.indexOf("\n+++", 4);
   return end === -1 ? "" : source.slice(4, end);
 }
 
-function readLanguageCodes(configToml) {
+export function readLanguageCodes(configToml) {
   const codes = new Set();
   for (const match of configToml.matchAll(/^\[languages\.([A-Za-z0-9_-]+)\]/gm)) {
     codes.add(match[1]);
@@ -52,7 +79,7 @@ function readLanguageCodes(configToml) {
   return codes;
 }
 
-function splitLanguageSuffix(rel, languageCodes) {
+export function splitLanguageSuffix(rel, languageCodes) {
   const parts = rel.split("/");
   const basename = parts[parts.length - 1];
   const dot = basename.lastIndexOf(".");
@@ -65,7 +92,7 @@ function splitLanguageSuffix(rel, languageCodes) {
   return { rel: parts.join("/"), lang: suffix };
 }
 
-function pagePathForFile(file, frontmatter, languageCodes) {
+export function pagePathForFile(file, frontmatter, languageCodes) {
   const explicitPath = parseScalar(frontmatter, "path");
   if (explicitPath) return normalizePath(explicitPath);
 
@@ -79,15 +106,13 @@ function pagePathForFile(file, frontmatter, languageCodes) {
   return normalizePath(lang ? `${lang}/${parts.join("/")}` : parts.join("/"));
 }
 
-function readBaseUrl(configToml) {
+export function readBaseUrl(configToml) {
   const baseUrl = parseScalar(configToml, "base_url");
   if (!baseUrl) throw new Error("config.toml must define base_url");
   return baseUrl.replace(/\/$/, "");
 }
 
-async function readExistingMap() {
-  if (!existsSync(DATA_FILE)) return {};
-  const source = await readFile(DATA_FILE, "utf8");
+export function parseExistingMap(source) {
   const map = {};
   let inPosts = false;
   for (const line of source.split(/\r?\n/)) {
@@ -103,7 +128,13 @@ async function readExistingMap() {
   return map;
 }
 
-function toToml(map) {
+async function readExistingMap() {
+  if (!existsSync(DATA_FILE)) return {};
+  const source = await readFile(DATA_FILE, "utf8");
+  return parseExistingMap(source);
+}
+
+export function toToml(map) {
   const lines = ["# Generated by scripts/sync-nostalgic-bbs.mjs", "# Keyed by article URL path.", "", "[posts]"];
   for (const key of Object.keys(map).sort()) {
     lines.push(`${JSON.stringify(key)} = ${JSON.stringify(map[key])}`);
@@ -111,39 +142,107 @@ function toToml(map) {
   return `${lines.join("\n")}\n`;
 }
 
-async function postJson(action, body) {
-  const response = await fetch(`${apiBase}/bbs?action=${action}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-  });
-  const json = await response.json().catch(() => ({}));
-  return { ok: response.ok, status: response.status, json };
+// Atomically persist the map: write to a temp file then rename over the target
+// so a crash mid-write never leaves a truncated mapping behind.
+async function writeMapAtomic(map) {
+  await mkdir(path.dirname(DATA_FILE), { recursive: true });
+  const tmp = `${DATA_FILE}.tmp`;
+  await writeFile(tmp, toToml(map));
+  await rename(tmp, DATA_FILE);
 }
 
-async function createBbs(url) {
-  const created = await postJson("create", {
-    url,
-    token,
-    title: "Comments",
-    maxMessages: 100,
-    messagesPerPage: 20,
-  });
+export function isRetryableStatus(status) {
+  return status === 429 || status === 503;
+}
+
+export function backoffMs(attempt, baseMs) {
+  return baseMs * (attempt + 1);
+}
+
+export async function postJson(action, body, { fetchImpl = globalThis.fetch } = {}) {
+  let response;
+  try {
+    response = await fetchImpl(`${apiBase}/bbs?action=${action}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+  } catch {
+    // Network-level failure (DNS, reset, timeout). Treat as retryable.
+    return { ok: false, status: 0, networkError: true, json: {} };
+  }
+  const json = await response.json().catch(() => ({}));
+  return { ok: response.ok, status: response.status, networkError: false, json };
+}
+
+export async function withRetry(fn, { label, maxRetries = MAX_RETRIES, baseMs = retryBaseMs, sleepImpl = sleep } = {}) {
+  for (let attempt = 0; attempt <= maxRetries; attempt += 1) {
+    try {
+      return await fn();
+    } catch (error) {
+      if (!error.retryable || attempt === maxRetries) {
+        throw error;
+      }
+      const waitMs = backoffMs(attempt, baseMs);
+      console.log(`${label} failed (retryable); waiting ${waitMs}ms before retry ${attempt + 1}/${maxRetries}`);
+      await sleepImpl(waitMs);
+    }
+  }
+  // Unreachable: the loop either returns or throws. Kept for static safety.
+  throw new Error(`${label} exhausted retries`);
+}
+
+export async function createBbs(url, { fetchImpl = globalThis.fetch } = {}) {
+  const created = await postJson(
+    "create",
+    {
+      url,
+      token,
+      title: "Comments",
+      maxMessages: 100,
+      messagesPerPage: 20,
+    },
+    { fetchImpl }
+  );
+  if (isRetryableStatus(created.status) || created.networkError) {
+    const error = new Error(`BBS create temporarily failed for ${url}: ${created.status}`);
+    error.retryable = true;
+    throw error;
+  }
   if (!created.ok || !created.json?.success || !created.json?.id) {
     throw new Error(`BBS create failed for ${url}: ${created.status} ${created.json?.error || ""}`.trim());
   }
   return created.json.id;
 }
 
-async function batchLookupBbs(items) {
-  const lookup = await postJson("batchLookup", {
-    urls: items.map((item) => item.url),
-    token,
-  });
+export async function batchLookupBbs(items, { fetchImpl = globalThis.fetch } = {}) {
+  const lookup = await postJson(
+    "batchLookup",
+    {
+      urls: items.map((item) => item.url),
+      token,
+    },
+    { fetchImpl }
+  );
+  if (isRetryableStatus(lookup.status) || lookup.networkError) {
+    const error = new Error(`BBS batchLookup temporarily failed: ${lookup.status}`);
+    error.retryable = true;
+    throw error;
+  }
   if (!lookup.ok || !lookup.json?.success || !Array.isArray(lookup.json?.data)) {
     throw new Error(`BBS batchLookup failed: ${lookup.status} ${lookup.json?.error || ""}`.trim());
   }
   return lookup.json.data;
+}
+
+async function createBbsWithRetry(url, deps = {}) {
+  const id = await withRetry(() => createBbs(url, deps), { label: `BBS create ${url}` });
+  if (createDelayMs > 0) await sleep(createDelayMs);
+  return id;
+}
+
+async function lookupWithRetry(items, deps = {}) {
+  return withRetry(() => batchLookupBbs(items, deps), { label: "BBS batchLookup" });
 }
 
 async function main() {
@@ -171,9 +270,9 @@ async function main() {
     return;
   }
 
-  for (let i = 0; i < missing.length; i += BATCH_LOOKUP_LIMIT) {
-    const chunk = missing.slice(i, i + BATCH_LOOKUP_LIMIT);
-    const lookupResults = await batchLookupBbs(chunk);
+  for (let i = 0; i < missing.length; i += LOOKUP_LIMIT) {
+    const chunk = missing.slice(i, i + LOOKUP_LIMIT);
+    const lookupResults = await lookupWithRetry(chunk);
 
     for (let j = 0; j < chunk.length; j += 1) {
       const item = chunk[j];
@@ -190,19 +289,29 @@ async function main() {
         throw new Error(`BBS batchLookup returned an existing BBS without an id for ${item.url}`);
       }
 
-      next[item.pagePath] = result.exists ? result.id : await createBbs(item.url);
+      if (result.exists) {
+        next[item.pagePath] = result.id;
+      } else {
+        next[item.pagePath] = await createBbsWithRetry(item.url);
+        // Persist immediately after a successful create so an interruption mid
+        // batch never loses a freshly provisioned id (avoids re-lookup churn).
+        await writeMapAtomic(next);
+      }
       console.log(`${item.pagePath} -> ${next[item.pagePath]}`);
     }
+
+    // Persist after each chunk as well, covering lookups that resolved to
+    // existing ids without any create.
+    await writeMapAtomic(next);
   }
 
-  await mkdir(path.dirname(DATA_FILE), { recursive: true });
-  await writeFile(DATA_FILE, toToml(next));
-  console.log(
-    `Wrote ${DATA_FILE}: ${Object.keys(next).length} ids (${missing.length} new).`
-  );
+  await writeMapAtomic(next);
+  console.log(`Wrote ${DATA_FILE}: ${Object.keys(next).length} ids (${missing.length} new).`);
 }
 
-main().catch((error) => {
-  console.error(error);
-  process.exit(1);
-});
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });
+}
