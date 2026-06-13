@@ -19,20 +19,33 @@ const token = env.NOSTALGIC_TOKEN || "";
 const apiBase = (env.NOSTALGIC_API_BASE || DEFAULT_API_BASE).replace(/\/$/, "");
 const CONTENT_DIR = env.NOSTALGIC_CONTENT_DIR || DEFAULT_CONTENT_DIR;
 
+// Pure env-clamp helpers. Each takes an already-Number()-ified raw value so that
+// unset env vars (Number(undefined) === NaN) fall through to the fallback.
 // Number of URLs resolved per batchLookup request (also the chunk size).
-const rawLookupLimit = Number(env.NOSTALGIC_LOOKUP_LIMIT || DEFAULT_LOOKUP_LIMIT);
-const LOOKUP_LIMIT = Number.isFinite(rawLookupLimit) && rawLookupLimit >= 1 ? rawLookupLimit : DEFAULT_LOOKUP_LIMIT;
+export function clampLookupLimit(raw, fallback = DEFAULT_LOOKUP_LIMIT) {
+  return Number.isFinite(raw) && raw >= 1 ? raw : fallback;
+}
 
-// Pacing delay applied after each successful create. 0 disables pacing.
-const rawCreateDelay = Number(env.NOSTALGIC_CREATE_DELAY_MS ?? DEFAULT_CREATE_DELAY_MS);
-const createDelayMs = Number.isFinite(rawCreateDelay) && rawCreateDelay >= 0 ? rawCreateDelay : DEFAULT_CREATE_DELAY_MS;
+// Pacing delay applied after each successful create. 0 is valid (disables pacing).
+export function clampCreateDelay(raw, fallback = DEFAULT_CREATE_DELAY_MS) {
+  return Number.isFinite(raw) && raw >= 0 ? raw : fallback;
+}
 
-// Base for linear backoff on retryable failures (429/503/network). Floored so
-// that a user-supplied 0 cannot disable backoff entirely.
-const retryBaseMs = Math.max(Number(env.NOSTALGIC_RETRY_BASE_MS || DEFAULT_RETRY_BASE_MS), MIN_RETRY_BASE_MS);
+// Base for linear backoff on retryable failures (429/503/network). A non-finite
+// raw (e.g. "abc") collapses to the fallback before flooring, so backoff can never
+// become NaN; the floor keeps a user-supplied 0 from disabling backoff entirely.
+export function clampRetryBase(raw, fallback = DEFAULT_RETRY_BASE_MS, min = MIN_RETRY_BASE_MS) {
+  return Math.max(Number.isFinite(raw) ? raw : fallback, min);
+}
 
-const rawMaxRetries = Number(env.NOSTALGIC_MAX_RETRIES || DEFAULT_MAX_RETRIES);
-const MAX_RETRIES = Number.isFinite(rawMaxRetries) && rawMaxRetries >= 1 ? rawMaxRetries : DEFAULT_MAX_RETRIES;
+export function clampMaxRetries(raw, fallback = DEFAULT_MAX_RETRIES) {
+  return Number.isFinite(raw) && raw >= 1 ? raw : fallback;
+}
+
+const LOOKUP_LIMIT = clampLookupLimit(Number(env.NOSTALGIC_LOOKUP_LIMIT));
+const createDelayMs = clampCreateDelay(Number(env.NOSTALGIC_CREATE_DELAY_MS));
+const retryBaseMs = clampRetryBase(Number(env.NOSTALGIC_RETRY_BASE_MS));
+const MAX_RETRIES = clampMaxRetries(Number(env.NOSTALGIC_MAX_RETRIES));
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -144,11 +157,11 @@ export function toToml(map) {
 
 // Atomically persist the map: write to a temp file then rename over the target
 // so a crash mid-write never leaves a truncated mapping behind.
-async function writeMapAtomic(map) {
-  await mkdir(path.dirname(DATA_FILE), { recursive: true });
-  const tmp = `${DATA_FILE}.tmp`;
+export async function writeMapAtomic(map, target = DATA_FILE) {
+  await mkdir(path.dirname(target), { recursive: true });
+  const tmp = `${target}.tmp`;
   await writeFile(tmp, toToml(map));
-  await rename(tmp, DATA_FILE);
+  await rename(tmp, target);
 }
 
 export function isRetryableStatus(status) {
@@ -236,13 +249,68 @@ export async function batchLookupBbs(items, { fetchImpl = globalThis.fetch } = {
 }
 
 async function createBbsWithRetry(url, deps = {}) {
-  const id = await withRetry(() => createBbs(url, deps), { label: `BBS create ${url}` });
-  if (createDelayMs > 0) await sleep(createDelayMs);
+  const { sleepImpl = sleep } = deps;
+  const id = await withRetry(() => createBbs(url, deps), { label: `BBS create ${url}`, sleepImpl });
+  // Pacing also goes through sleepImpl so tests can run with zero real waiting.
+  if (createDelayMs > 0) await sleepImpl(createDelayMs);
   return id;
 }
 
 async function lookupWithRetry(items, deps = {}) {
-  return withRetry(() => batchLookupBbs(items, deps), { label: "BBS batchLookup" });
+  const { sleepImpl = sleep } = deps;
+  return withRetry(() => batchLookupBbs(items, deps), { label: "BBS batchLookup", sleepImpl });
+}
+
+// Provision BBS ids for every missing post into `next`, chunk by chunk. Each
+// chunk is batch-looked-up then resolved item-by-item; creates are persisted
+// immediately and the chunk is persisted at its end. Deps are injectable so the
+// chunk core can be exercised with fakes and zero real waiting. A final write
+// after the loop guarantees `next` is persisted even when missing is empty
+// (matching the previous main()'s always-write-once behaviour).
+export async function provisionMissing(
+  missing,
+  next,
+  { fetchImpl = globalThis.fetch, sleepImpl = sleep, writeMap = (m) => writeMapAtomic(m), lookupLimit = LOOKUP_LIMIT } = {}
+) {
+  for (let i = 0; i < missing.length; i += lookupLimit) {
+    const chunk = missing.slice(i, i + lookupLimit);
+    const lookupResults = await lookupWithRetry(chunk, { fetchImpl, sleepImpl });
+
+    for (let j = 0; j < chunk.length; j += 1) {
+      const item = chunk[j];
+      const result = lookupResults[j];
+      if (!result || result.url !== item.url) {
+        throw new Error(`BBS batchLookup returned an unexpected result order for ${item.url}`);
+      }
+
+      if (result.exists && result.authorized === false) {
+        throw new Error(`BBS already exists for ${item.url}, but NOSTALGIC_TOKEN is not its owner token`);
+      }
+
+      if (result.exists && !result.id) {
+        throw new Error(`BBS batchLookup returned an existing BBS without an id for ${item.url}`);
+      }
+
+      if (result.exists) {
+        next[item.pagePath] = result.id;
+      } else {
+        next[item.pagePath] = await createBbsWithRetry(item.url, { fetchImpl, sleepImpl });
+        // Persist immediately after a successful create so an interruption mid
+        // batch never loses a freshly provisioned id (avoids re-lookup churn).
+        await writeMap(next);
+      }
+      console.log(`${item.pagePath} -> ${next[item.pagePath]}`);
+    }
+
+    // Persist after each chunk as well, covering lookups that resolved to
+    // existing ids without any create.
+    await writeMap(next);
+  }
+
+  // Final write covers the missing-empty case so behaviour matches the prior
+  // always-write-once main(): `next` (a copy of existing) is still persisted.
+  await writeMap(next);
+  return next;
 }
 
 async function main() {
@@ -270,42 +338,7 @@ async function main() {
     return;
   }
 
-  for (let i = 0; i < missing.length; i += LOOKUP_LIMIT) {
-    const chunk = missing.slice(i, i + LOOKUP_LIMIT);
-    const lookupResults = await lookupWithRetry(chunk);
-
-    for (let j = 0; j < chunk.length; j += 1) {
-      const item = chunk[j];
-      const result = lookupResults[j];
-      if (!result || result.url !== item.url) {
-        throw new Error(`BBS batchLookup returned an unexpected result order for ${item.url}`);
-      }
-
-      if (result.exists && result.authorized === false) {
-        throw new Error(`BBS already exists for ${item.url}, but NOSTALGIC_TOKEN is not its owner token`);
-      }
-
-      if (result.exists && !result.id) {
-        throw new Error(`BBS batchLookup returned an existing BBS without an id for ${item.url}`);
-      }
-
-      if (result.exists) {
-        next[item.pagePath] = result.id;
-      } else {
-        next[item.pagePath] = await createBbsWithRetry(item.url);
-        // Persist immediately after a successful create so an interruption mid
-        // batch never loses a freshly provisioned id (avoids re-lookup churn).
-        await writeMapAtomic(next);
-      }
-      console.log(`${item.pagePath} -> ${next[item.pagePath]}`);
-    }
-
-    // Persist after each chunk as well, covering lookups that resolved to
-    // existing ids without any create.
-    await writeMapAtomic(next);
-  }
-
-  await writeMapAtomic(next);
+  await provisionMissing(missing, next);
   console.log(`Wrote ${DATA_FILE}: ${Object.keys(next).length} ids (${missing.length} new).`);
 }
 
