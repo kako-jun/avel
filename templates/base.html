@@ -69,6 +69,8 @@
 <style>
 {% if config.extra.view_transitions | default(value=false) %}@view-transition{navigation:auto}{% endif %}
 *{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 html{background-color:{{ config.extra.body_bg | default(value="#ffffff") }};{% if config.extra.background_image %}background-image:url("/{{ config.extra.background_image }}");background-repeat:repeat;{% endif %}}
 {% if config.extra.view_transitions | default(value=false) %}::view-transition,::view-transition-group(root),::view-transition-image-pair(root),::view-transition-old(root),::view-transition-new(root){background-color:{{ config.extra.body_bg | default(value="#ffffff") }};{% if config.extra.background_image %}background-image:url("/{{ config.extra.background_image }}");background-repeat:repeat;{% endif %}}::view-transition-old(root),::view-transition-new(root){mix-blend-mode:normal}::view-transition-old(root){animation:none}::view-transition-new(root){animation:avel-vt-in .25s ease both}@keyframes avel-vt-in{from{opacity:0}}{% endif %}
 body{display:flex;min-height:100vh;font-family:{% if config.extra.font_family %}{{ config.extra.font_family }},{% endif %}{{ config.extra.font | default(value="sans-serif") }};font-size:{{ config.extra.font_size | default(value="16px") }};color:{{ config.extra.text_color | default(value="#000000") }};background-color:{{ config.extra.body_bg | default(value="#ffffff") }};{% if config.extra.background_image %}background-image:url("/{{ config.extra.background_image }}");background-repeat:repeat;{% endif %}{% if config.extra.max_width %}max-width:{{ config.extra.max_width }};margin:0 auto;{% endif %}}
@@ -151,12 +153,21 @@ footer{padding:.5em;text-align:center;font-size:.85em}
   main blockquote{border-left-color:#555}
   .ple small,.nostalgic-bbs-hint{color:#999}
   .pager .off{color:#555}
+  .to-top{background:#23232f;border-color:#444;box-shadow:2px 2px 0 rgba(0,0,0,.4)}
+  .to-top,.to-top:visited{color:#9bb8ff}
 }
 {% endif %}
 main img{max-width:100%;height:auto}
+/* Back-to-top button: a plain #top anchor fixed at the bottom-right. No JS, in
+   keeping with the theme; smooth scroll comes from html{scroll-behavior}. Always
+   visible — robust under minify_html and on every browser. */
+.to-top{position:fixed;right:1em;bottom:1em;z-index:50;display:flex;align-items:center;justify-content:center;width:2.6em;height:2.6em;background:{{ config.extra.nav_bg | default(value="#f0f0ff") }};color:{{ config.extra.nav_link_color | default(value="#0000ee") }};border:2px solid #c0c0c0;text-decoration:none;font-size:1.2em;line-height:1;box-shadow:2px 2px 0 rgba(0,0,0,.18)}
+.to-top:visited{color:{{ config.extra.nav_link_color | default(value="#0000ee") }}}
+.to-top:hover{filter:brightness(.96);text-decoration:none}
+.to-top:focus-visible{outline:2px solid {{ config.extra.nav_link_color | default(value="#0000ee") }};outline-offset:2px}
 </style>
 </head>
-<body>
+<body id="top">
 <nav>
 {% set bullet_glyph = config.extra.nav_bullet | default(value="●") %}
 {% set bullet_palette = config.extra.nav_bullet_colors | default(value=["#ffcccc","#00ff00","#33ffff","#0099ff","#0000ff","#333399","#cc00cc"]) %}
@@ -211,6 +222,7 @@ main img{max-width:100%;height:auto}
 </nav>
 <main>{% block content %}{% endblock content %}</main>
 {% if config.extra.footer %}<footer>{{ config.extra.footer }}</footer>{% endif %}
+{% if config.extra.to_top | default(value=true) %}<a class="to-top" href="#top" aria-label="{{ trans(key='to_top', lang=lang) }}" title="{{ trans(key='to_top', lang=lang) }}">↑</a>{% endif %}
 {% if config.extra.speculation_rules | default(value=true) %}
 <script type="speculationrules">{"prerender":[{"where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":"/atom.xml"}}]},"eagerness":"moderate"}]}</script>
 {% endif %}

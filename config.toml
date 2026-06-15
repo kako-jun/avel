@@ -37,6 +37,7 @@ comments = "Comments"
 comment_hint = "Click to comment"
 profile_text = "A sample site for the avel Zola theme."
 date_format = "%B %d, %Y"
+to_top = "Back to top"
 
 [languages.ja]
 title = "avel のホームページ（サンプル）"
@@ -63,6 +64,7 @@ comments = "Comments"
 comment_hint = "クリックで書き込めます"
 profile_text = "Zola テーマ avel のサンプルサイトです。"
 date_format = "%Y年%m月%d日"
+to_top = "トップへ戻る"
 
 [extra]
 # Defaults recreate the feel of Hiroshi Abe's famously lightweight homepage.
@@ -86,6 +88,7 @@ background_image = "bg.svg"
 # body_bg = "#ffffff"
 
 # --- Layout ---
+# to_top = true              # show the fixed back-to-top button (bottom-right). on by default
 # nav_width = "18%"
 # nav_bg = "#f0f0ff"
 # nav_border = true

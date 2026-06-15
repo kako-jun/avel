@@ -65,6 +65,7 @@ All defaults recreate the Abe Hiroshi look. Uncomment any line to override it.
 # content_align = "left"         # left / center / justify
 # title_align = "center"          # page <h1> alignment, default: center
 # line_height = "1.5"            # default: 1.5
+# to_top = true                   # fixed bottom-right back-to-top "↑" link (no JS, default: true); set false to remove
 
 # --- Font ---
 # font = "sans-serif"             # serif / sans-serif / monospace, default: sans-serif (Abe is unstyled, so it shows the browser default — gothic for Japanese)
