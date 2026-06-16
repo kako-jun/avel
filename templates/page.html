@@ -4,7 +4,9 @@
 <h1>{{ page.title }}</h1>
 {% if page.date %}<p><small>{{ page.date | date(format=trans(key="date_format", lang=lang)) }}</small></p>{% endif %}
 {% if page.taxonomies.tags %}<p class="tags">{% for tag in page.taxonomies.tags %}<a href="{{ get_taxonomy_url(kind='tags', name=tag, lang=lang) }}">#{{ tag }}</a>{% endfor %}</p>{% endif %}
+<div class="post-content">
 {{ page.content | safe }}
+</div>
 <hr>
 {% if config.extra.share %}
 <div class="share">
