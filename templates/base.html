@@ -69,6 +69,7 @@
 <style>
 {% if config.extra.view_transitions | default(value=false) %}@view-transition{navigation:auto}{% endif %}
 *{margin:0;padding:0;box-sizing:border-box}
+:root{--avel-to-top-bg:{{ config.extra.nav_bg | default(value="#f0f0ff") }};--avel-to-top-border:#c0c0c0;--avel-to-top-link:{{ config.extra.nav_link_color | default(value="#0000ee") }}}
 html{scroll-behavior:smooth}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 html{background-color:{{ config.extra.body_bg | default(value="#ffffff") }};{% if config.extra.background_image %}background-image:url("/{{ config.extra.background_image }}");background-repeat:repeat;{% endif %}}
@@ -142,6 +143,7 @@ footer{padding:.5em;text-align:center;font-size:.85em}
 }
 {% if config.extra.dark_mode | default(value=true) %}
 @media(prefers-color-scheme:dark){
+  :root{--avel-to-top-bg:#23232f;--avel-to-top-border:#444;--avel-to-top-link:#9bb8ff}
   html{background-color:#1a1a1a;{% if config.extra.background_image %}background-image:url("/{{ config.extra.background_image_dark | default(value='bg-dark.svg') }}");{% else %}background-image:none;{% endif %}}
   {% if config.extra.view_transitions | default(value=false) %}::view-transition,::view-transition-group(root),::view-transition-image-pair(root),::view-transition-old(root),::view-transition-new(root){background-color:#1a1a1a;{% if config.extra.background_image %}background-image:url("/{{ config.extra.background_image_dark | default(value='bg-dark.svg') }}");{% else %}background-image:none;{% endif %}}{% endif %}
   body{background-color:#1a1a1a;{% if config.extra.background_image %}background-image:url("/{{ config.extra.background_image_dark | default(value='bg-dark.svg') }}");{% else %}background-image:none;{% endif %}color:#ddd}
@@ -153,18 +155,16 @@ footer{padding:.5em;text-align:center;font-size:.85em}
   main blockquote{border-left-color:#555}
   .ple small,.nostalgic-bbs-hint{color:#999}
   .pager .off{color:#555}
-  .to-top{background:#23232f;border-color:#444}
-  .to-top,.to-top:visited{color:#9bb8ff}
 }
 {% endif %}
 main img{max-width:100%;height:auto}
 /* Back-to-top button: a plain #top anchor fixed at the bottom-right. No JS, in
    keeping with the theme; smooth scroll comes from html{scroll-behavior}. Always
    visible — robust under minify_html and on every browser. */
-.to-top{position:fixed;right:1em;bottom:1em;z-index:50;display:flex;align-items:center;justify-content:center;width:2.6em;height:2.6em;background:{{ config.extra.nav_bg | default(value="#f0f0ff") }};color:{{ config.extra.nav_link_color | default(value="#0000ee") }};border:2px solid #c0c0c0;text-decoration:none;font-size:1.2em;line-height:1}
-.to-top:visited{color:{{ config.extra.nav_link_color | default(value="#0000ee") }}}
+.to-top{position:fixed;right:0;bottom:0;z-index:50;display:flex;align-items:center;justify-content:center;width:2.2em;height:2.2em;background:var(--avel-to-top-bg);color:var(--avel-to-top-link);border:0;border-top:2px solid var(--avel-to-top-border);border-left:2px solid var(--avel-to-top-border);text-decoration:none;font-size:1.1em;line-height:1}
+.to-top:visited{color:var(--avel-to-top-link)}
 .to-top:hover{text-decoration:none}
-.to-top:focus-visible{outline:2px solid {{ config.extra.nav_link_color | default(value="#0000ee") }};outline-offset:2px}
+.to-top:focus-visible{outline:none;text-decoration:underline}
 </style>
 </head>
 <body id="top">
