@@ -10,6 +10,8 @@ avel supports static language switching with Zola's multilingual content model. 
 
 The demo uses English as the default language and Japanese under `/ja/`.
 
+> **Try it now:** this very article exists in both languages. [日本語で読む →](@/posts/multilingual.ja.md) — the URL changes to `/ja/posts/multilingual/`, and the Japanese page links straight back here. Both directions are plain static `<a>` links: no JavaScript, no redirect.
+
 ## Configuration
 
 Set English as the default language, then add Japanese in `config.toml`.
