@@ -153,7 +153,7 @@ footer{padding:.5em;text-align:center;font-size:.85em}
   main blockquote{border-left-color:#555}
   .ple small,.nostalgic-bbs-hint{color:#999}
   .pager .off{color:#555}
-  .to-top{background:#23232f;border-color:#444;box-shadow:2px 2px 0 rgba(0,0,0,.4)}
+  .to-top{background:#23232f;border-color:#444}
   .to-top,.to-top:visited{color:#9bb8ff}
 }
 {% endif %}
@@ -161,9 +161,9 @@ main img{max-width:100%;height:auto}
 /* Back-to-top button: a plain #top anchor fixed at the bottom-right. No JS, in
    keeping with the theme; smooth scroll comes from html{scroll-behavior}. Always
    visible — robust under minify_html and on every browser. */
-.to-top{position:fixed;right:1em;bottom:1em;z-index:50;display:flex;align-items:center;justify-content:center;width:2.6em;height:2.6em;background:{{ config.extra.nav_bg | default(value="#f0f0ff") }};color:{{ config.extra.nav_link_color | default(value="#0000ee") }};border:2px solid #c0c0c0;text-decoration:none;font-size:1.2em;line-height:1;box-shadow:2px 2px 0 rgba(0,0,0,.18)}
+.to-top{position:fixed;right:1em;bottom:1em;z-index:50;display:flex;align-items:center;justify-content:center;width:2.6em;height:2.6em;background:{{ config.extra.nav_bg | default(value="#f0f0ff") }};color:{{ config.extra.nav_link_color | default(value="#0000ee") }};border:2px solid #c0c0c0;text-decoration:none;font-size:1.2em;line-height:1}
 .to-top:visited{color:{{ config.extra.nav_link_color | default(value="#0000ee") }}}
-.to-top:hover{filter:brightness(.96);text-decoration:none}
+.to-top:hover{text-decoration:none}
 .to-top:focus-visible{outline:2px solid {{ config.extra.nav_link_color | default(value="#0000ee") }};outline-offset:2px}
 </style>
 </head>
